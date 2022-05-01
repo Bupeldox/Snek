@@ -1,0 +1,10 @@
+canvas{
+    max-width:100%;
+}
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height:80vh;
+    margin:0;
+}

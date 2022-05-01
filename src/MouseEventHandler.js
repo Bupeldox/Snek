@@ -63,6 +63,9 @@ export default class MouseDraggingHelper {
         var x = e.pageX - oLeft;
         var y = e.pageY - oTop;
 
+        y=this.element.height * y/this.element.offsetHeight
+        x=this.element.width * x/this.element.offsetWidth
+
         return new Vec2(x, y);
     }
 
