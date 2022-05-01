@@ -8,7 +8,7 @@ module.exports = {
     mode: 'development',
     output: {
         filename: "bundles.js",
-        path: path.resolve(__dirname, "dist"),
+        path: path.resolve(__dirname, "docs"),
 
     },
     optimization: {
@@ -16,7 +16,7 @@ module.exports = {
     },
     devServer: {
         static: {
-            directory: path.join(__dirname, 'dist'),
+            directory: path.join(__dirname, 'docs'),
         },
         compress: false,
         port: 9000,
