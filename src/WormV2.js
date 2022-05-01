@@ -34,15 +34,15 @@ export default class Snek {
         //only collides with default cat. not worm cat.
 
 
-        if(this.objects.length == this.partCount){
-            s.render.fillStyle=Colors.MoveableObsticals;
-        }else{
+        // if(this.objects.length == this.partCount-1){
+        //     s.render.fillStyle=Colors.MoveableObsticals;
+        // }else{
             if(Math.random()>0.5){
                 s.render.fillStyle=Colors.SnekA;
             }else{
                 s.render.fillStyle=Colors.SnekB;
             }
-        }
+        //}
 
 
         this.objects.push(s);
