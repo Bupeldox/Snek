@@ -6,4 +6,5 @@ export const Colors = {
     MoveableObsticals:"#774044",
     MoveableObsticalsBorder:"#6F3C3F",
     Collectable:"#fb1",
+    SnekEye:"#000"
 };

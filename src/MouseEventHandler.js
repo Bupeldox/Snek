@@ -28,9 +28,9 @@ export default class MouseDraggingHelper {
         this.element = element;
 
         this.mouseDownHandler = new MouseEventHandler(element, "mousedown touchstart");
-        this.mouseUpHandler = new MouseEventHandler(allElement, "mouseup touchend touchcancel mouseleave");
+        this.mouseUpHandler = new MouseEventHandler(allElement, "mouseup touchend touchcancel");
         this.mouseLeaveHandler = new MouseEventHandler(allElement, "mouseleave");
-        this.mouseMoveHandler = new MouseEventHandler(element, "mousemove");
+        this.mouseMoveHandler = new MouseEventHandler(allElement, "mousemove");
         this.touchMoveHandler = new MouseEventHandler(element,"touchmove");
 
         this.mouseDownHandler.register((p)=>{this.startDrag(p)});

@@ -1,8 +1,6 @@
 import { Colors } from "../Colors.js";
 import Vec2 from "./vec2.js";
 
-const WORM_CATEGORY = 0b0010;
-const DEFAULT_CATEGORY = 0b0001;
 const maxAngle = 0.3;
 const maxDeltaAngle = 0.05;
 const jointStiffness = 0.9;
@@ -21,19 +19,16 @@ export default class Snek {
         this.joints = [];
         this.lastPlaced = Date.now();
     }
-    addSegment(p){
+    addSegment(p,width){
 
         if(this.objects.length!=0){
             p= new Vec2(this.objects[this.objects.length-1].position);
             p.x+= this.moveDist;
         }
 
-        var s = this.matterHandler.addObject(p,this.width);
-        s.collisionFilter.category = WORM_CATEGORY;
-        s.collisionFilter.mask = DEFAULT_CATEGORY;
-        //only collides with default cat. not worm cat.
+        var s = this.matterHandler.addObject(p,width);
 
-
+     
         // if(this.objects.length == this.partCount-1){
         //     s.render.fillStyle=Colors.MoveableObsticals;
         // }else{
@@ -63,8 +58,15 @@ export default class Snek {
 
     createWholeWorm(p){
         for(var i=0;i<this.partCount;i++){
-            this.addSegment(p);
+            //var width = (Math.log((i/this.partCount)+3)*1.6)*this.width/2;
+            this.addSegment(p,this.width);
         }
+        var head = this.objects[this.objects.length-1];
+        var eyePos = new Vec2(head.position);
+        var eye = this.matterHandler.addEye(this.width/2.5,head);
+        eye.render.fillStyle=Colors.SnekEye;
+        
+
     }
     move(p) {
         p = new Vec2(p);

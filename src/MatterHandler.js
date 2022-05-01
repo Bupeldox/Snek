@@ -75,6 +75,9 @@ Runner.run(runner, engine);
 
 
 
+const WORM_CATEGORY = 0b0010;
+const DEFAULT_CATEGORY = 0b0001;
+
 export default class MatterHandler{
     constructor(){
         this.domElement = render.canvas;
@@ -88,12 +91,33 @@ export default class MatterHandler{
         var n = Bodies.circle(p.x, p.y, width, 20);
         n.mySize = width;
         Composite.add(engine.world,n);
+        n.collisionFilter.category = WORM_CATEGORY;
+        n.collisionFilter.mask = DEFAULT_CATEGORY;
         return n;
     }
     addBox(p){
         var n = Bodies.circle(p.x, p.y, 80, 80);
        
         Composite.add(engine.world,n);
+        return n;
+    }
+    addEye(width,head){
+        var p = head.position;
+        var n = Bodies.circle(p.x,p.y, width, 20);
+        n.mySize = width;
+        n.collisionFilter.category = WORM_CATEGORY;
+        n.collisionFilter.mask = DEFAULT_CATEGORY;
+        Composite.add(engine.world,n);
+        //Body.setParts(head,[n],true);
+
+        var c = Constraint.create({
+            bodyA:head,
+            bodyB:n,
+            render:{
+                strokeStyle:"#0000"
+            }
+        })
+        Composite.add(engine.world,c);
         return n;
     }
     addCollectable(p,options){
