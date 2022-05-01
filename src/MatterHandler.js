@@ -26,12 +26,29 @@ var render = Render.create({
 });
 
 // create two boxes and a ground
-var boxA = Bodies.rectangle(400, 200, 80, 80);
-var boxB = Bodies.rectangle(450, 50, 80, 80);
-var ground = Bodies.rectangle(width/2, height, width, 100, { isStatic: true });
+var bodsToCreate = [];
+
+bodsToCreate.push(Bodies.rectangle(400, 200, 80, 80));
+bodsToCreate.push(Bodies.rectangle(450, 50, 80, 80));
+
+
+//obsticals
+bodsToCreate.push(Bodies.rectangle(450, height-50-40-80, 80, 80, { isStatic: true }));
+bodsToCreate.push(Bodies.rectangle(450+80+60, height-50-40-80, 80, 80, { isStatic: true }));
+bodsToCreate.push(Bodies.rectangle(450-50, height-50-40-80-50-80, 80, 80, { isStatic: true }));
+bodsToCreate.push(Bodies.rectangle(450+80+60-50, height-50-40-80-50-80, 80, 80, { isStatic: true }));
+bodsToCreate.push(Bodies.rectangle(450,       height-50-40-80-50-80-50-80, 80, 80, { isStatic: true }));
+bodsToCreate.push(Bodies.rectangle(450+80+60, height-50-40-80-50-80-50-80, 80, 80, { isStatic: true }));
+
+
+//walls
+bodsToCreate.push(Bodies.rectangle(width/2, height, width, 100, { isStatic: true }));
+bodsToCreate.push(Bodies.rectangle(width/2, 0, width, 100, { isStatic: true }));
+bodsToCreate.push(Bodies.rectangle(0, height/2, 100, height, { isStatic: true }));
+bodsToCreate.push(Bodies.rectangle(width, height/2, 100, height, { isStatic: true }));
 
 // add all of the bodies to the world
-Composite.add(engine.world, [boxA, boxB, ground]);
+Composite.add(engine.world, bodsToCreate);
 
 // run the renderer
 Render.run(render);
