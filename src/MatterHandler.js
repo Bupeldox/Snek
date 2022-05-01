@@ -29,7 +29,11 @@ var render = Render.create({
 var bodsToCreate = [];
 
 bodsToCreate.push(Bodies.rectangle(400, 200, 80, 80));
-bodsToCreate.push(Bodies.rectangle(450, 50, 80, 80));
+bodsToCreate.push(Bodies.rectangle(450, 50, 80, 80,{render: {
+    fillStyle: 'yellow',
+    strokeStyle: 'blue',
+    lineWidth: 0
+}}));
 
 
 //obsticals

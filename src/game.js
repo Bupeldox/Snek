@@ -2,6 +2,7 @@
 import $ from "jquery";
 import MatterHandler from "./MatterHandler.js";
 import MouseDraggingHelper from "./MouseEventHandler";
+import Vec2 from "./vec2.js";
 import Worm from "./WormV2.js";
 
 const MOVE_DIST = 10;
@@ -35,6 +36,7 @@ export default class Game{
         this.player = new Player();
         this.running = true;
         this.update();
+        this.player.Worm.move(new Vec2(300,730));
     }
     update(){
         this.player.update();
