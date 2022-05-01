@@ -2,7 +2,7 @@
 import $ from "jquery";
 import { Colors } from "./Colors.js";
 import MatterHandler from "./MatterHandler.js";
-import MouseDraggingHelper from "./MouseEventHandler";
+import MouseDraggingHelper, { JQEventHandler } from "./MouseEventHandler";
 import Vec2 from "./vec2.js";
 import Worm from "./WormV2.js";
 
@@ -17,15 +17,19 @@ class Player {
         this.MatterHandler = MatterHandler
  
         this.MouseDraggingHelper = new MouseDraggingHelper(this.MatterHandler.domElement,document.body);
-
-        this.Worm = new Worm(MOVE_DIST,MAX_LENGTH,MOVE_SPEED,WORM_RADIUS,this.MatterHandler);
-        
+        this.clickHandler = new JQEventHandler(document.getElementById("thing"),"click");
+        this.clickHandler.register(()=>{this.Worm.onPhysicsBreak()})
+        this.Worm = new Worm(MOVE_DIST,MAX_LENGTH,MOVE_SPEED,WORM_RADIUS,this.MatterHandler,()=>{this.resetWormPos()});
+        this.resetWormPos();
     }
-   
+    resetWormPos(){
+        this.Worm.move(new Vec2(300,730));
+    }
     update(){
         if(this.MouseDraggingHelper.isDragging){
             this.Worm.move(this.MouseDraggingHelper.pos);
         }
+        this.Worm.update();
     }
 
     
@@ -39,7 +43,6 @@ export default class Game{
         this.running = true;
         var target = new Collectable(new Vec2(500,200), this.MatterHandler);
         this.update();
-        this.player.Worm.move(new Vec2(300,730));
     }
     update(){
         this.player.update();

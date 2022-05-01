@@ -4,11 +4,12 @@ import Vec2 from "./vec2.js";
 const maxAngle = 0.3;
 const maxDeltaAngle = 0.05;
 const jointStiffness = 0.9;
-const historyLength = 10; //frames of history ish
+const historyLength = 5; //frames of history ish
 
 
 export default class Snek {
-    constructor(moveDist, maxLength, moveSpeed,width, matterHandler) {
+    constructor(moveDist, maxLength, moveSpeed,width, matterHandler,resetFunc) {
+        this.askForReset = resetFunc;
         this.matterHandler = matterHandler;
         this.moveDist = moveDist;
         this.moveSpeed = moveSpeed;
@@ -101,6 +102,25 @@ export default class Snek {
 
         }
     }
+    update(){
+        if(this.objects && this.objects.length>=1){
+            if(this.objects[0].angularVelocity > 4.5){
+                this.onPhysicsBreak();
+            }
+        }
+    }
+    onPhysicsBreak(){
+        this.removeWholeWorm();
+        this.objects =[];
+        this.askForReset();
+    }
+    removeWholeWorm(){
+        for (let i = 0; i < this.objects.length; i++) {
+            const e = this.objects[i];
+            this.matterHandler.removeObject(e);
+            
+        }
+    }
     
 }
 
@@ -131,8 +151,15 @@ class WormJoint{
             d2:this.matterHander.createJoint(a,b,c,a1,jointStiffness),
             f:this.matterHander.createJoint(a,b,c,f,jointStiffness),
         };
+
+        if(!(a.myConstraints)){
+            a.myConstraints = [];
+        }
+        
+
         for(var i in this.joints){
             var joint = this.joints[i];
+            a.myConstraints.push(joint);
             joint.myStartLength = joint.length+0;
             joint.render.strokeStyle="#0000";
         }
