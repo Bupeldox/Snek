@@ -41,7 +41,7 @@ var moveableObsticalProps = { render :{
 } };
 bodsToCreate.push(Bodies.rectangle(400, 200, 80, 80,moveableObsticalProps));
 bodsToCreate.push(Bodies.rectangle(450, 50, 80, 80,moveableObsticalProps));
-
+bodsToCreate.push(Bodies.rectangle(500, 300, 80, 80,moveableObsticalProps));
 
 
 
