@@ -1,9 +1,10 @@
+import { Colors } from "../Colors.js";
 import Vec2 from "./vec2.js";
 
 const WORM_CATEGORY = 0b0010;
 const DEFAULT_CATEGORY = 0b0001;
 const maxAngle = 0.3;
-const maxDeltaAngle = 0.04;
+const maxDeltaAngle = 0.05;
 const jointStiffness = 0.9;
 const historyLength = 10; //frames of history ish
 
@@ -15,7 +16,7 @@ export default class Snek {
         this.moveSpeed = moveSpeed;
         this.maxLength = maxLength;
         this.partCount = Math.floor(this.maxLength / this.moveDist);
-        this.width = width
+        this.width = width;
         this.objects = [];
         this.joints = [];
         this.lastPlaced = Date.now();
@@ -31,6 +32,19 @@ export default class Snek {
         s.collisionFilter.category = WORM_CATEGORY;
         s.collisionFilter.mask = DEFAULT_CATEGORY;
         //only collides with default cat. not worm cat.
+
+
+        if(this.objects.length == this.partCount){
+            s.render.fillStyle=Colors.MoveableObsticals;
+        }else{
+            if(Math.random()>0.5){
+                s.render.fillStyle=Colors.SnekA;
+            }else{
+                s.render.fillStyle=Colors.SnekB;
+            }
+        }
+
+
         this.objects.push(s);
         if (this.objects.length >= 2) {
             for (var i = Math.max(0,this.objects.length -2); i < this.objects.length - 1; i++) {
@@ -42,6 +56,7 @@ export default class Snek {
                     this.width*2,
                     this.matterHandler
                 );
+                
             }
         }
     }
@@ -56,23 +71,26 @@ export default class Snek {
 
         if(this.objects.length<this.partCount){
             this.createWholeWorm(p);
-        }else{
-            var lastWormElement = this.objects[this.objects.length-1];
-            var lastElemPos =new Vec2(lastWormElement.position);
-            var secondLastWormElement = this.objects[this.objects.length-2];
-            var secondLastPos = new Vec2(secondLastWormElement.position)
-            var lastSegmentVec = lastElemPos.sub(secondLastPos);
-
-            var secondToEndToMouse = p.sub(secondLastPos);
-            var angle = lastSegmentVec.angle(secondToEndToMouse)*-1;
-
-            console.log(angle);
-            this.shuffleAnglesBackwards(0);
-            secondLastWormElement.myJoint.setAngle(angle);
-
-
+            return;
         }
+
+
+        var lastWormElement = this.objects[this.objects.length-1];
+        var lastElemPos =new Vec2(lastWormElement.position);
+        var secondLastWormElement = this.objects[this.objects.length-2];
+        var secondLastPos = new Vec2(secondLastWormElement.position)
+        var lastSegmentVec = lastElemPos.sub(secondLastPos);
+
+        var secondToEndToMouse = p.sub(secondLastPos);
+        var angle = lastSegmentVec.angle(secondToEndToMouse)*-1;
+
+        console.log(angle);
+        this.shuffleAnglesBackwards(0);
+        secondLastWormElement.myJoint.setAngle(angle);
+
+
         
+    
     }
     shuffleAnglesBackwards(){
         for (let i = 0; i < this.objects.length-2; i++) {
@@ -115,6 +133,7 @@ class WormJoint{
         for(var i in this.joints){
             var joint = this.joints[i];
             joint.myStartLength = joint.length+0;
+            joint.render.strokeStyle="#0000";
         }
         
         

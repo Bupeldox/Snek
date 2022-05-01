@@ -1,5 +1,7 @@
 import Matter from "matter-js";
+import { Background, Colors } from "../Colors";
 import Vec2 from "./vec2";
+
 
 var Engine = Matter.Engine,
 Render = Matter.Render,
@@ -21,35 +23,43 @@ var render = Render.create({
     engine: engine,
     options:{
         height: height,
-        width: width
+        width: width,
+        wireframes: false,
+        background: Colors.Background
     }
+    
 });
 
 // create two boxes and a ground
 var bodsToCreate = [];
 
-bodsToCreate.push(Bodies.rectangle(400, 200, 80, 80));
-bodsToCreate.push(Bodies.rectangle(450, 50, 80, 80,{render: {
-    fillStyle: 'yellow',
-    strokeStyle: 'blue',
-    lineWidth: 0
-}}));
+
+var moveableObsticalProps = { render :{
+    fillStyle:Colors.MoveableObsticals,
+    strokeStyle:Colors.MoveableObsticalsBorder, 
+    lineWidth:1
+} };
+bodsToCreate.push(Bodies.rectangle(400, 200, 80, 80,moveableObsticalProps));
+bodsToCreate.push(Bodies.rectangle(450, 50, 80, 80,moveableObsticalProps));
+
+
 
 
 //obsticals
-bodsToCreate.push(Bodies.rectangle(450, height-50-40-80, 80, 80, { isStatic: true }));
-bodsToCreate.push(Bodies.rectangle(450+80+60, height-50-40-80, 80, 80, { isStatic: true }));
-bodsToCreate.push(Bodies.rectangle(450-50, height-50-40-80-50-80, 80, 80, { isStatic: true }));
-bodsToCreate.push(Bodies.rectangle(450+80+60-50, height-50-40-80-50-80, 80, 80, { isStatic: true }));
-bodsToCreate.push(Bodies.rectangle(450,       height-50-40-80-50-80-50-80, 80, 80, { isStatic: true }));
-bodsToCreate.push(Bodies.rectangle(450+80+60, height-50-40-80-50-80-50-80, 80, 80, { isStatic: true }));
+var obsticalProps = { isStatic: true,render :{fillStyle:Colors.Obsticals} }
+bodsToCreate.push(Bodies.rectangle(450, height-50-40-80, 80, 80, obsticalProps));
+bodsToCreate.push(Bodies.rectangle(450+80+60, height-50-40-80, 80, 80, obsticalProps));
+bodsToCreate.push(Bodies.rectangle(450-50, height-50-40-80-50-80, 80, 80, obsticalProps));
+bodsToCreate.push(Bodies.rectangle(450+80+60-50, height-50-40-80-50-80, 80, 80, obsticalProps));
+bodsToCreate.push(Bodies.rectangle(450,       height-50-40-80-50-80-50-80, 80, 80, obsticalProps));
+bodsToCreate.push(Bodies.rectangle(450+80+60, height-50-40-80-50-80-50-80, 80, 80, obsticalProps));
 
 
 //walls
-bodsToCreate.push(Bodies.rectangle(width/2, height, width, 100, { isStatic: true }));
-bodsToCreate.push(Bodies.rectangle(width/2, 0, width, 100, { isStatic: true }));
-bodsToCreate.push(Bodies.rectangle(0, height/2, 100, height, { isStatic: true }));
-bodsToCreate.push(Bodies.rectangle(width, height/2, 100, height, { isStatic: true }));
+bodsToCreate.push(Bodies.rectangle(width/2, height, width, 100, obsticalProps));
+bodsToCreate.push(Bodies.rectangle(width/2, 0, width, 100, obsticalProps));
+bodsToCreate.push(Bodies.rectangle(0, height/2, 100, height, obsticalProps));
+bodsToCreate.push(Bodies.rectangle(width, height/2, 100, height, obsticalProps));
 
 // add all of the bodies to the world
 Composite.add(engine.world, bodsToCreate);
