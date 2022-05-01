@@ -9,5 +9,10 @@ body {
     min-height: 100vh;
     margin: 0;
     background-color: #5A6637;
-    
+}
+
+@media (orientation: portrait) {
+    body {
+        min-height: 80vh;
+    }
 }
