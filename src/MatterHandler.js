@@ -96,13 +96,18 @@ export default class MatterHandler{
         Composite.add(engine.world,n);
         return n;
     }
+    addCollectable(p,options){
+        var n = Bodies.circle(p.x, p.y, 80, 80,options);
+       
+        Composite.add(engine.world,n);
+        return n;
+    }
     joinObjects(parent,child){
         
         var veca = new Vec2(0,parent.mySize);
         var vecb = new Vec2(0,child.mySize);
         var constriantCount = 3;
         
-        console.log(veca);
 
         if(parent.myConstraints){
             
@@ -110,7 +115,6 @@ export default class MatterHandler{
             parent.myConstraints = [];
         }
 
-        console.log(veca);
 
         for(var i=0;i<constriantCount;i++){
 

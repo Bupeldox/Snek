@@ -84,7 +84,6 @@ export default class Snek {
         var secondToEndToMouse = p.sub(secondLastPos);
         var angle = lastSegmentVec.angle(secondToEndToMouse)*-1;
 
-        console.log(angle);
         this.shuffleAnglesBackwards(0);
         secondLastWormElement.myJoint.setAngle(angle);
 

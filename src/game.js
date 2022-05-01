@@ -1,5 +1,6 @@
 
 import $ from "jquery";
+import { Colors } from "../Colors.js";
 import MatterHandler from "./MatterHandler.js";
 import MouseDraggingHelper from "./MouseEventHandler";
 import Vec2 from "./vec2.js";
@@ -37,6 +38,7 @@ export default class Game{
         this.running = true;
         this.update();
         this.player.Worm.move(new Vec2(300,730));
+        var target = new Collectable(500,100);
     }
     update(){
         this.player.update();
@@ -47,3 +49,15 @@ export default class Game{
     }
 }
 var game = new Game();
+
+
+class Collectable{
+    constructor(pos,MatterHandler){
+        this.MatterHandler =MatterHandler;
+
+        this.bod = this.MatterHandler.addCollectable(pos,{render:{
+            fillStyle:Colors.Collectable
+        }
+        });
+    }
+}

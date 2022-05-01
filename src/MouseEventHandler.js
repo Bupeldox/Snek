@@ -37,7 +37,7 @@ export default class MouseDraggingHelper {
         this.mouseUpHandler.register((p)=>{this.stopDrag(p)});
         //this.mouseLeaveHandler.register((p)=>{this.stopDrag(p)})
         this.mouseMoveHandler.register((p)=>{this.move(p)});
-        this.touchMoveHandler.register((p)=>{console.log(p);this.move(p)});
+        this.touchMoveHandler.register((p)=>{this.move(p)});
 
     }
     startDrag(){
