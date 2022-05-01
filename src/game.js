@@ -1,6 +1,6 @@
 
 import $ from "jquery";
-import { Colors } from "../Colors.js";
+import { Colors } from "./Colors.js";
 import MatterHandler from "./MatterHandler.js";
 import MouseDraggingHelper from "./MouseEventHandler";
 import Vec2 from "./vec2.js";

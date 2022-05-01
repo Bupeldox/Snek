@@ -1,4 +1,4 @@
-import { Colors } from "../Colors.js";
+import { Colors } from "./Colors.js";
 import Vec2 from "./vec2.js";
 
 const maxAngle = 0.3;

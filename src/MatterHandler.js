@@ -1,5 +1,5 @@
 import Matter from "matter-js";
-import { Background, Colors } from "../Colors";
+import { Background, Colors } from "./Colors";
 import Vec2 from "./vec2";
 
 
