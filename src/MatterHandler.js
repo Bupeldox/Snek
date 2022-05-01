@@ -87,7 +87,7 @@ export default class MatterHandler{
     playFor(time, onComplete){
         
     }
-    addObject(p,width){
+    addSnekSegment(p,width){
         var n = Bodies.circle(p.x, p.y, width, 20);
         n.mySize = width;
         Composite.add(engine.world,n);
@@ -113,6 +113,7 @@ export default class MatterHandler{
         var c = Constraint.create({
             bodyA:head,
             bodyB:n,
+            //length:0,
             render:{
                 strokeStyle:"#0000"
             }

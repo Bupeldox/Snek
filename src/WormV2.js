@@ -26,7 +26,7 @@ export default class Snek {
             p.x+= this.moveDist;
         }
 
-        var s = this.matterHandler.addObject(p,width);
+        var s = this.matterHandler.addSnekSegment(p,width);
 
      
         // if(this.objects.length == this.partCount-1){

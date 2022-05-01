@@ -1,7 +1,7 @@
 import Vec2 from "./vec2.js";
 import $ from "jquery";
 
-export class MouseEventHandler {
+export class JQEventHandler {
     constructor(element, event) {
         this.listeners = [];
         $(element).on(event, (e) => { this.onEvent(e) });
@@ -27,17 +27,21 @@ export default class MouseDraggingHelper {
         this.pos = new Vec2(0,0);
         this.element = element;
 
-        this.mouseDownHandler = new MouseEventHandler(allElement, "mousedown touchstart");
-        this.mouseUpHandler = new MouseEventHandler(allElement, "mouseup touchend touchcancel");
-        this.mouseLeaveHandler = new MouseEventHandler(allElement, "mouseleave");
-        this.mouseMoveHandler = new MouseEventHandler(allElement, "mousemove");
-        this.touchMoveHandler = new MouseEventHandler(allElement,"touchmove");
+        this.mouseDownHandler = new JQEventHandler(allElement, "mousedown touchstart");
+        this.mouseUpHandler = new JQEventHandler(allElement, "mouseup touchend touchcancel");
+        this.mouseLeaveHandler = new JQEventHandler(allElement, "mouseleave");
+        this.mouseMoveHandler = new JQEventHandler(allElement, "mousemove");
+        this.touchMoveHandler = new JQEventHandler(allElement,"touchmove");
+        this.spaceDownHandler = new JQEventHandler(allElement,"keydown");
+        this.spaceUpHandler = new JQEventHandler(allElement,"keyup");
 
         this.mouseDownHandler.register((p)=>{this.startDrag(p)});
         this.mouseUpHandler.register((p)=>{this.stopDrag(p)});
         this.mouseLeaveHandler.register((p)=>{this.stopDrag(p)})
         this.mouseMoveHandler.register((p)=>{this.move(p)});
         this.touchMoveHandler.register((p)=>{this.move(p)});
+        this.spaceDownHandler.register((e)=>{if(e.which == 32){this.startDrag()}})
+        this.spaceUpHandler.register((e)=>{if(e.which == 32){this.stopDrag()}})
 
     }
     startDrag(){
