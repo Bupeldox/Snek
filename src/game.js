@@ -13,10 +13,10 @@ const MOVE_SPEED = 150/1000; //px per second
 
 
 class Player {
-    constructor(){
-        this.MatterHandler = new MatterHandler();
+    constructor(MatterHandler){
+        this.MatterHandler = MatterHandler
  
-        this.MouseDraggingHelper = new MouseDraggingHelper(this.MatterHandler.domElement,$("body")[0]);
+        this.MouseDraggingHelper = new MouseDraggingHelper(this.MatterHandler.domElement,document.body);
 
         this.Worm = new Worm(MOVE_DIST,MAX_LENGTH,MOVE_SPEED,WORM_RADIUS,this.MatterHandler);
         
@@ -34,11 +34,12 @@ class Player {
 
 export default class Game{
     constructor(){
-        this.player = new Player();
+        this.MatterHandler = new MatterHandler();
+        this.player = new Player(this.MatterHandler);
         this.running = true;
+        var target = new Collectable(new Vec2(500,200), this.MatterHandler);
         this.update();
         this.player.Worm.move(new Vec2(300,730));
-        var target = new Collectable(500,100);
     }
     update(){
         this.player.update();
@@ -48,16 +49,21 @@ export default class Game{
         }
     }
 }
-var game = new Game();
 
 
 class Collectable{
     constructor(pos,MatterHandler){
-        this.MatterHandler =MatterHandler;
+        this.MatterHandler = MatterHandler;
 
-        this.bod = this.MatterHandler.addCollectable(pos,{render:{
-            fillStyle:Colors.Collectable
-        }
+        this.bod = this.MatterHandler.addCollectable(pos,{
+            isStatic:true,
+            render:{
+                fillStyle:Colors.Collectable
+            }
         });
     }
 }
+
+
+
+var game = new Game();

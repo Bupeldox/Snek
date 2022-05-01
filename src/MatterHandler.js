@@ -121,7 +121,7 @@ export default class MatterHandler{
         return n;
     }
     addCollectable(p,options){
-        var n = Bodies.circle(p.x, p.y, 80, 80,options);
+        var n = Bodies.circle(p.x, p.y, 20, options,10);
        
         Composite.add(engine.world,n);
         return n;
