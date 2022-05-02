@@ -4,7 +4,7 @@ export const Colors = {
     Background : "#697740",
     Obsticals : "#5A6637",
     MoveableObsticals:"#774044",
-    MoveableObsticalsBorder:"#6F3C3F",
+    MoveableObsticalsBorder:"#5E3235",
     Collectable:"#fb1",
     SnekEye:"#000"
 };

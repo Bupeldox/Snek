@@ -36,7 +36,7 @@ eval("/*!\n * matter-js 0.18.0 by @liabru\n * http://brm.io/matter-js/\n * Licen
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"Colors\": () => (/* binding */ Colors)\n/* harmony export */ });\nconst Colors = {\r\n    SnekA : \"#665337\",\r\n    SnekB : \"#766040\",\r\n    Background : \"#697740\",\r\n    Obsticals : \"#5A6637\",\r\n    MoveableObsticals:\"#774044\",\r\n    MoveableObsticalsBorder:\"#6F3C3F\",\r\n    Collectable:\"#fb1\",\r\n    SnekEye:\"#000\"\r\n};\n\n//# sourceURL=webpack://gameidea/./src/Colors.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"Colors\": () => (/* binding */ Colors)\n/* harmony export */ });\nconst Colors = {\r\n    SnekA : \"#665337\",\r\n    SnekB : \"#766040\",\r\n    Background : \"#697740\",\r\n    Obsticals : \"#5A6637\",\r\n    MoveableObsticals:\"#774044\",\r\n    MoveableObsticalsBorder:\"#5E3235\",\r\n    Collectable:\"#fb1\",\r\n    SnekEye:\"#000\"\r\n};\n\n//# sourceURL=webpack://gameidea/./src/Colors.js?");
 
 /***/ }),
 
