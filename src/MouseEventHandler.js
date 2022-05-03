@@ -25,6 +25,7 @@ export default class MouseDraggingHelper {
     constructor(element, allElement) {
         this.isDragging = false;
         this.pos = new Vec2(0,0);
+        this.button = "None";
         this.element = element;
 
         this.mouseDownHandler = new JQEventHandler(allElement, "mousedown touchstart");
@@ -55,7 +56,13 @@ export default class MouseDraggingHelper {
         if(e.pageX){
             p = this.eToVec(e);
         }else{
-            p = this.eToVec(e.changedTouches[0]);
+            if(e.changedTouches){
+                p = this.eToVec(e.changedTouches[0]);
+            }
+            else
+            { 
+                return;
+            }
         }
         
         this.pos = p;
