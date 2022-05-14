@@ -10,7 +10,8 @@ Runner = Matter.Runner,
 Bodies = Matter.Bodies,
 Composite = Matter.Composite,
 Body = Matter.Body,
-Constraint = Matter.Constraint;
+Constraint = Matter.Constraint,
+Events = Matter.Events
 
 // create an engine
 var engine = Engine.create({ });
@@ -158,5 +159,13 @@ export default class MatterHandler{
         
         Composite.add(engine.world, c)
         return c;
+    }
+    registerAfterDraw(func){
+       var thing = Events.on(render, "afterRender", (a,c,b)=>func(render.canvas.getContext("2d"),{a,b,c}));
+       console.log(thing);
+       return thing;
+    }
+    unregisterAfterDraw(func){
+        Events.off(render,"afterRender",func);
     }
 }

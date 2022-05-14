@@ -8,7 +8,9 @@ export const Colors = {
     MoveableObsticals:"#774044",
     MoveableObsticalsBorder:"#5E3235",
     Collectable:"#fb1",
+    
     SnekEye:"#000",
+    SnekTongue:"#f06",
     SnekGradient: (p)=>{
         var base = "hsl(36, 30%, #LIGHTNESS#%)"
         var min = 31;
@@ -17,5 +19,9 @@ export const Colors = {
         var l = (p*delta)+min;
         var color = base.replace("#LIGHTNESS#",l);
         return Colorjs(color).hex();
+    },
+
+    updateAColor:function(which,color){
+        this[which] = color;
     }
 };
