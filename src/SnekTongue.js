@@ -5,6 +5,7 @@ function pSin(x) {
     return (Math.sin(x) / 2) + 0.5;
 }
 
+
 export default class SnekTongue {
 
     constructor(matterHandler, headRadius) {
@@ -84,23 +85,13 @@ export default class SnekTongue {
         ctx.fill();
     }
 
-    updatePos(pos) {
-        this.pos = new Vec2(pos);
-
-    }
-    updateAngle(angle) {
-        this.angle = angle;
-    }
-    show() {
-        this.showing = true;
-    }
-
-    hide() {
-        this.showing = false;
-    }
+    updatePos(pos) { this.pos = new Vec2(pos); }
+    updateAngle(angle) { this.angle = angle; }
+    show() { this.showing = true; }
+    hide() { this.showing = false; }
 
     destroy() {
         this.MatterHandler.unregisterAfterDraw(this.draw);
-        this.show = false;
+        this.showing = false;
     }
 }
