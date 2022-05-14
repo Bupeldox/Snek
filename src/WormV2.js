@@ -9,7 +9,7 @@ const historyLength = 7; //frames of history ish
 const MaxAngularVelocity = 3;
 
 export default class Snek {
-    constructor(moveDist, maxLength, moveSpeed, width, matterHandler, resetFunc,startPos) {
+    constructor(moveDist, maxLength, moveSpeed, width, matterHandler, resetFunc, startPos) {
         this.askForReset = resetFunc;
         this.matterHandler = matterHandler;
         this.moveDist = moveDist;
@@ -63,9 +63,10 @@ export default class Snek {
         var eye = this.matterHandler.addEye(this.width / 2.5, head);
         eye.render.fillStyle = Colors.SnekEye;
 
-        this.tongue = new SnekTongue(this.matterHandler,this.width);
+        this.tongue = new SnekTongue(this.matterHandler, this.width);
 
     }
+    controllerInput
     move(p) {
         p = new Vec2(p);
         this.isMoving = true;
@@ -83,9 +84,9 @@ export default class Snek {
 
         var secondToEndToMouse = p.sub(secondLastPos);
         var angle = lastSegmentVec.angle(secondToEndToMouse) * -1;
-        var absangle = secondToEndToMouse.angle(new Vec2(0,1)) * -1;
-        
-        this.shuffleAnglesBackwards(0);
+        var absangle = secondToEndToMouse.angle(new Vec2(0, 1)) * -1;
+
+        this.shuffleAnglesBackwards();
         secondLastWormElement.myJoint.setAngle(angle);
 
         this.tongue.updateAngle(absangle);
@@ -103,11 +104,11 @@ export default class Snek {
                 this.onPhysicsBreak();
             }
         }
-        this.tongue.updatePos(this.objects[this.objects.length-1].position);
+        this.tongue.updatePos(this.objects[this.objects.length - 1].position);
 
-        if(this.isMoving){
+        if (this.isMoving) {
             this.tongue.show();
-        }else{
+        } else {
             this.tongue.hide();
         }
 
@@ -137,7 +138,7 @@ class WormJoint {
         this.angle = angle;
         this.angleHistory = [0];
         this.targetAngle = angle;
-        
+
 
         //1 = top
         //p = parallel
@@ -173,7 +174,7 @@ class WormJoint {
     }
 
 
-    setColor(angle){
+    setColor(angle) {
         var strain = Math.abs(angle / maxAngle);
         this.bodA.render.fillStyle = Colors.SnekGradient(strain);
     }
@@ -200,10 +201,10 @@ class WormJoint {
         }
 
 
-        
+
         this.setParrallel(this.joints.p1, this.angle);
         this.setParrallel(this.joints.p2, -this.angle);
-        
+
         this.setColor(this.angle);
     }
 
