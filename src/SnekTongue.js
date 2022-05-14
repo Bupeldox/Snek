@@ -4,7 +4,9 @@ import Vec2 from "./vec2";
 function pSin(x) {
     return (Math.sin(x) / 2) + 0.5;
 }
-
+function rotater(x){
+    return new Vec2(Math.sin(x),Math.cos(x));
+}
 
 export default class SnekTongue {
 
@@ -22,8 +24,8 @@ export default class SnekTongue {
 
     calculateTonguePath() {
         var tongueBaseAngle = 0.5;
-        var tongueEndAngle = 0.2;
-        var tongueLength = 0.8 * this.extension;
+        var tongueEndAngle = 2.4;
+        var tongueLength = 0.8 * this.extension + ( pSin((Date.now()/1000)*20)*0.2);
         var tongueDist = 0.8;
         var tongueWidth = 0.2;
 
@@ -39,6 +41,7 @@ export default class SnekTongue {
 
 
         var halfTongueWidth = tongueWidth / 2;
+        var r = rotater(Date.now()/1000*20).times(2);
 
         var a = new Vec2(tongueDist, halfTongueWidth);
         var b = new Vec2(tongueDist + tongueLength, halfTongueWidth);
@@ -46,6 +49,9 @@ export default class SnekTongue {
         var d = b.clone(); d.y = d.y * -1;
         var e = a.clone(); e.y = e.y * -1;
         var f = new Vec2(tongueDist - Math.tan(tongueBaseAngle / 2) * halfTongueWidth, 0);
+
+        b = b.add(r);
+        d = d.add(r);
         return [a, b, c, d, e, f];
 
     }
