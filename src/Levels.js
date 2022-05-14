@@ -38,5 +38,15 @@ export const Levels = [
         bodsToCreate.push(Bodies.rectangle(width, height/2, 100, height, obsticalProps));
 
         return bodsToCreate;
+    },
+    (Bodies,width,height)=>{
+        var bodsToCreate = [];
+
+        //obsticals
+        var obsticalProps = { isStatic: true,render :{fillStyle:Colors.Obsticals} }
+        bodsToCreate.push(Bodies.rectangle(450, height-50-40-80, obsticalSize, obsticalSize, obsticalProps));
+        
+        
+        return bodsToCreate;
     }
 ];

@@ -89,7 +89,17 @@ export default class Snek {
         this.shuffleAnglesBackwards();
         secondLastWormElement.myJoint.setAngle(angle);
 
-        this.tongue.updateAngle(absangle);
+
+        var relativeTongueAngle = angle;
+        var maxAngle = 1;
+        if (Math.abs(angle) > maxAngle) {
+            relativeTongueAngle = maxAngle * Math.sign(angle);
+        }
+        var tongueVec = lastSegmentVec.rotate(relativeTongueAngle);
+        var tongueAngle = tongueVec.angle(new Vec2(0,1));
+
+
+        this.tongue.updateAngle(tongueAngle,lastSegmentVec.angle(new Vec2(0,1)));
     }
     shuffleAnglesBackwards() {
         for (let i = 0; i < this.objects.length - 2; i++) {
