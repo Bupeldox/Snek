@@ -1,17 +1,19 @@
 import Matter from "matter-js";
 import { Colors } from "./Colors";
-import { Levels } from "./Levels";
+import LevelHandler from "./LevelHandler";
+
 import Vec2 from "./vec2";
 
 
-var Engine = Matter.Engine,
+export var Engine = Matter.Engine,
 Render = Matter.Render,
 Runner = Matter.Runner,
 Bodies = Matter.Bodies,
 Composite = Matter.Composite,
 Body = Matter.Body,
 Constraint = Matter.Constraint,
-Events = Matter.Events
+Events = Matter.Events,
+levelHandler = new LevelHandler()
 
 
 
@@ -38,7 +40,7 @@ var render = Render.create({
 
 
 // add all of the bodies to the world
-Composite.add(engine.world, Levels[0](Bodies,width,height));
+Composite.add(engine.world, levelHandler.getLevel(0)(Bodies,width,height));
 
 // run the renderer
 Render.run(render);
@@ -175,3 +177,7 @@ export default class MatterHandler{
         Events.off(render,"afterRender",func);
     }
 }
+
+
+
+
