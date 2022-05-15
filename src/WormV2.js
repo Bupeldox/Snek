@@ -21,6 +21,7 @@ export default class Snek {
         this.joints = [];
         this.lastPlaced = Date.now();
         this.isMoving = false;
+        this.isReversing = false;
     }
     addSegment(p, width) {
 
@@ -64,7 +65,7 @@ export default class Snek {
         eye.render.fillStyle = Colors.SnekEye;
 
         this.tongue = new SnekTongue(this.matterHandler, this.width);
-        // this.tail = new SnekTongue(this.matterHandler, this.width);
+        this.tail = new SnekTongue(this.matterHandler, this.width);
 
     }
     
@@ -111,57 +112,59 @@ export default class Snek {
         this.tongue.updateAngle(tongueAngle,lastSegmentVec.angle(new Vec2(0,1)));
     }
     
-    // reverse(p){
-    //     p = new Vec2(p);
-    //     this.isMoving = true;
+    reverse(p){
+        p = new Vec2(p);
+        this.isReversing = true;
 
 
-    //     if (this.objects.length < this.partCount) {
-    //         this.createWholeWorm(p);
-    //         return;
-    //     }
+        if (this.objects.length < this.partCount) {
+            this.createWholeWorm(p);
+            return;
+        }
 
-    //     var lastWormElement = this.objects[0];
-    //     var lastElemPos = new Vec2(lastWormElement.position);
-    //     var secondLastWormElement = this.objects[1];
-    //     var secondLastPos = new Vec2(secondLastWormElement.position)
-    //     var lastSegmentVec = lastElemPos.sub(secondLastPos);
+        var lastWormElement = this.objects[0];
+        var lastElemPos = new Vec2(lastWormElement.position);
+        var secondLastWormElement = this.objects[1];
+        var secondLastPos = new Vec2(secondLastWormElement.position)
+        var lastSegmentVec = lastElemPos.sub(secondLastPos);
 
-    //     var secondToEndToMouse = p.sub(secondLastPos);
-    //     var angle = lastSegmentVec.angle(secondToEndToMouse) * -1;
+        var secondToEndToMouse = p.sub(secondLastPos);
+        var angle = lastSegmentVec.angle(secondToEndToMouse);
 
-    //     this.shuffleAnglesForwards();
-    //     secondLastWormElement.myJoint.setAngle(angle);
-
-
-    //     var relativeTongueAngle = angle;
-    //     var maxAngle = 1;
-
-    //     if (Math.abs(angle) > maxAngle) {
-    //         relativeTongueAngle = maxAngle * Math.sign(angle);
-    //     }
-
-    //     var tongueVec = lastSegmentVec.rotate(relativeTongueAngle);
-    //     var tongueAngle = tongueVec.angle(new Vec2(0,1));
+        this.shuffleAnglesForwards();
+        lastWormElement.myJoint.setAngle(angle);
 
 
-    //     this.tongue.updateAngle(tongueAngle,lastSegmentVec.angle(new Vec2(0,1)));
-    // }
+        var relativeTongueAngle = angle;
+        var maxAngle = 1;
+
+        if (Math.abs(angle) > maxAngle) {
+            relativeTongueAngle = maxAngle * Math.sign(angle);
+        }
+
+        var tongueVec = lastSegmentVec.rotate(relativeTongueAngle);
+        var tongueAngle = tongueVec.angle(new Vec2(0,1));
+
+
+        this.tail.updateAngle(-tongueAngle,lastSegmentVec.angle(new Vec2(0,1)));
+    }
 
     shuffleAnglesBackwards() {
+        //For moving 'forwards'
         for (let i = 0; i < this.objects.length - 2; i++) {
             const obj = this.objects[i];
             const nextObj = this.objects[i + 1];
             obj.myJoint.setAngle(nextObj.myJoint.angleHistory[0]);
         }
     }
-    // shuffleAnglesForwards(){
-    //     for (let i =  this.objects.length - 1; i >=1; i--) {
-    //         const obj = this.objects[i];
-    //         const nextObj = this.objects[i - 1];
-    //         obj.myJoint.setAngle(nextObj.myJoint.angleHistory[0]);
-    //     }
-    // }
+    shuffleAnglesForwards(){
+        //for moving 'backwards'
+        for (let i =  this.objects.length - 2; i >=1; i--) {
+            const obj = this.objects[i];
+            const nextObj = this.objects[i - 1];
+            obj.myJoint.setAngle(nextObj.myJoint.angleHistory[0]);
+        }
+    }
 
     update() {
         if (this.objects && this.objects.length >= 1) {
@@ -170,14 +173,22 @@ export default class Snek {
             }
         }
         this.tongue.updatePos(this.objects[this.objects.length - 1].position);
+        this.tail.updatePos(this.objects[0].position);
 
         if (this.isMoving) {
             this.tongue.show();
         } else {
             this.tongue.hide();
         }
+        if(this.isReversing){
+            this.tail.show();
+        } else {
+            this.tail.hide();
+        } 
+        
 
         this.isMoving = false;
+        this.isReversing = false;
     }
     onPhysicsBreak() {
         this.removeWholeWorm();
@@ -201,7 +212,7 @@ class WormJoint {
         this.bodB = b;
         this.baseLength = baseLength;
         this.angle = angle;
-        this.angleHistory = [0];
+        this.angleHistory = Array(historyLength).fill(0);
         this.targetAngle = angle;
 
 
@@ -232,7 +243,7 @@ class WormJoint {
             var joint = this.joints[i];
             a.myConstraints.push(joint);
             joint.myStartLength = joint.length + 0;
-            joint.render.strokeStyle = "#0000";
+            //joint.render.strokeStyle = "#0000";
         }
 
 
