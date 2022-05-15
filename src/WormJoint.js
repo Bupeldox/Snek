@@ -1,6 +1,6 @@
 import { Colors } from "./Colors.js";
 import Vec2 from "./vec2.js";
-import { historyLength, jointStiffness, maxAngle, maxDeltaAngle } from "./WormV2";
+import { historyLength, jointStiffness, maxAngle, maxDeltaAngle } from "./Worm";
 
 export default class WormJoint {
     constructor(a, b, angle, baseLength, matterHander) {
@@ -39,7 +39,7 @@ export default class WormJoint {
             var joint = this.joints[i];
             a.myConstraints.push(joint);
             joint.myStartLength = joint.length + 0;
-            //joint.render.strokeStyle = "#0000";
+            joint.render.strokeStyle = "#0000";
         }
 
 
@@ -57,7 +57,7 @@ export default class WormJoint {
             angle = maxAngle * sign;
         }
         this.targetAngle = angle;
-        console.log(angle);
+        
 
         if (this.angleHistory.length >= historyLength) {
             this.angleHistory.shift();

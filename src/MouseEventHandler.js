@@ -33,7 +33,6 @@ export default class MouseDraggingHelper {
         this.mouseLeaveHandler = new JQEventHandler(allElement, "mouseleave");
         this.mouseMoveHandler = new JQEventHandler(allElement, "mousemove");
         this.touchMoveHandler = new JQEventHandler(allElement,"touchmove");
-        this.spaceHandler = new ButtonEventHandler(" ",allElement);
 
         this.spaceDownHandler = new JQEventHandler(allElement,"keydown");
         this.spaceUpHandler = new JQEventHandler(allElement,"keyup");
@@ -43,10 +42,6 @@ export default class MouseDraggingHelper {
         this.mouseLeaveHandler.register((p)=>{this.stopDrag(p)});
         this.mouseMoveHandler.register((p)=>{this.move(p)});
         this.touchMoveHandler.register((p)=>{this.move(p)});
-
-        this.spaceHandler.registerDown((e)=>{this.startDrag()});
-        this.spaceHandler.registerUp((e)=>{this.stopDrag()});
-
     }
     startDrag(){
         this.isDragging = true;

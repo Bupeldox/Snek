@@ -128,6 +128,7 @@ export default class Snek {
         var angle = lastSegmentVec.angle(secondToEndToMouse);
 
         //This needs to be the other way around for reverse
+        lastWormElement.myJoint.setAngle(angle);
         secondLastWormElement.myJoint.setAngle(angle);
         this.shuffleAnglesForwards();
 
@@ -138,11 +139,11 @@ export default class Snek {
             relativeTongueAngle = maxAngle * Math.sign(angle);
         }
 
-        var tongueVec = lastSegmentVec.rotate(relativeTongueAngle);
+        var tongueVec = lastSegmentVec.rotate(-relativeTongueAngle);
         var tongueAngle = tongueVec.angle(new Vec2(0,1));
 
 
-        this.tail.updateAngle(-tongueAngle,lastSegmentVec.angle(new Vec2(0,1)));
+        this.tail.updateAngle(tongueAngle,lastSegmentVec.angle(new Vec2(0,1)));
     }
 
     shuffleAnglesBackwards() {
