@@ -75,7 +75,6 @@ export default class SnekTongue {
             return;
 
         }
-        console.log(this.extension);
         if (!this.showing) {
             this.extension -= this.extensionSpeed;
         } else {

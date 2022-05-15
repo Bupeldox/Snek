@@ -17,7 +17,7 @@ export class Player {
     }
     
     resetWormPos() {
-        this.Worm.move(new Vec2(300, 730));
+        this.Worm.create(new Vec2(300, 730));
     }
 
     update() {
