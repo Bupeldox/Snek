@@ -62,8 +62,8 @@ export default class Snek {
         }
         var head = this.objects[this.objects.length - 1];
         var eyePos = new Vec2(head.position);
-        var eye = this.matterHandler.addEye(this.width / 2.5, head);
-        eye.render.fillStyle = Colors.SnekEye;
+        this.eye = this.matterHandler.addEye(this.width / 2.5, head);
+        this.eye.render.fillStyle = Colors.SnekEye;
 
         this.tongue = new SnekTongue(this.matterHandler, this.width);
         this.tail = new SnekTongue(this.matterHandler, this.width);
@@ -198,6 +198,10 @@ export default class Snek {
             this.matterHandler.removeObject(e);
         }
         this.tongue.destroy();
+        this.tail.destroy();
+        this.matterHandler.removeObject(this.eye)
+        this.objects = [];
+        this.eye = undefined;
     }
 
 }

@@ -14,7 +14,7 @@ export class Player {
 
         this.clickHandler.register(() => { this.Worm.onPhysicsBreak(); });
         this.Worm = new Worm(MOVE_DIST, MAX_LENGTH, MOVE_SPEED, WORM_RADIUS, this.MatterHandler, () => { this.resetWormPos(); });
-        this.resetWormPos();
+        
     }
 
     resetWormPos(p) {

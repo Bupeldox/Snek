@@ -1,8 +1,13 @@
 import { Colors } from "../../Utilities/Colors";
+import Vec2 from "../../Utilities/vec2";
 import { LevelBase } from "../LevelBase";
 
 export class Level1 extends LevelBase {
     
+
+    getSnekStartPos(){
+        return new Vec2(300, 700);
+    }
     createBodies() {
         var h = this.height;
         var w = this.width;
@@ -36,7 +41,7 @@ export class Level1 extends LevelBase {
         //walls
         this.addWalls();
 
-        this.goals[0] = (this.MatterWorldHandler.createCollectable(w/2 - 25, h - 50 - 40 - 80 - 50 - 80 - 50 - 80-200,20));
+        this.goals[0] = (this.MatterWorldHandler.createCollectable(w/2 - 25, h - 50 - 40 - 80 - 50 - 80 - 50 - 80 - 150));
       
         this.bodies = bodsToCreate;
 
@@ -46,7 +51,7 @@ export class Level1 extends LevelBase {
     setupEvents(){
           
         this.MatterWorldHandler.registerPlayerCollisionEvent(this.goals[0],()=>{
-            this.MatterWorldHandler.removeObj(this.goals[0]);
+            this.goals[0].render.fillStyle = Colors.Obsticals;
         });
 
     }

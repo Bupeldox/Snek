@@ -1,8 +1,11 @@
 import { Colors } from "../../Utilities/Colors";
+import Vec2 from "../../Utilities/vec2";
 import { LevelBase } from "../LevelBase";
 
 export class Level2 extends LevelBase {
-    
+    getSnekStartPos(){
+        return new Vec2(200, 700);
+    }
     createBodies() {
         var w = this.width;
         var h = this.height;
@@ -26,5 +29,12 @@ export class Level2 extends LevelBase {
 
 
         this.addWalls();
+
+        this.goals[0] = (this.MatterWorldHandler.createCollectable(w-100, h - 200));
+       
+        this.MatterWorldHandler.registerPlayerCollisionEvent(this.goals[0],()=>{
+            this.changeLevelFunc(0);
+        });
+
     }
 }

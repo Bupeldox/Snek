@@ -61,22 +61,12 @@ export default class MatterHandler {
         this.domElement = render.canvas;
 
     }
-
-    playFor(time, onComplete) {
-
-    }
     addSnekSegment(p, width) {
         var n = Bodies.circle(p.x, p.y, width, 20);
         n.mySize = width;
         Composite.add(engine.world, n);
         n.collisionFilter.category = WORM_CATEGORY;
         n.collisionFilter.mask = DEFAULT_CATEGORY;
-        return n;
-    }
-    addBox(p) {
-        var n = Bodies.circle(p.x, p.y, 80, 80);
-
-        Composite.add(engine.world, n);
         return n;
     }
     addEye(width, head) {
@@ -97,12 +87,6 @@ export default class MatterHandler {
             }
         })
         Composite.add(engine.world, c);
-        return n;
-    }
-    addCollectable(p, options) {
-        var n = Bodies.circle(p.x, p.y, 20, options, 10);
-
-        Composite.add(engine.world, n);
         return n;
     }
     joinObjects(parent, child) {
@@ -150,7 +134,6 @@ export default class MatterHandler {
     applyForce(bod, from, vec) {
         Body.applyForce(bod, Matter.Vector.create(from.x, from.y), Matter.Vector.create(vec.x, vec.y));
     }
-
     createJoint(a, b, pa, pb, stiffness) {
         var c = Constraint.create({
             bodyA: a,
@@ -203,7 +186,7 @@ export class MatterWorldHandler {
         Composite.add(engine.world, b);
         return b;
     }
-    createCollectable(x, y, r, options) {
+    createCollectable(x, y, options) {
         if (!options) {
             options = {};
         }
@@ -212,7 +195,7 @@ export class MatterWorldHandler {
             options.render = {};
         }
         options.render.fillStyle = Colors.Collectable;
-        var b = Bodies.circle(x, y, r, options);
+        var b = Bodies.circle(x, y, 20, options);
 
         Composite.add(engine.world, b);
         return b;

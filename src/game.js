@@ -16,19 +16,25 @@ export default class Game {
     constructor() {
         this.MatterHandler = new MatterHandler();
 
-        this.loadNewLevel(0);
+        this.loadNewLevel(1);
         this.running = true;
+        
         this.update();
     }
     loadNewLevel(index) {
+        debugger;
         this.MatterHandler.unloadLevel();
         if (this.player) {
             this.player.destroy();
+        }else{
+            this.player = new Player(this.MatterHandler);
         }
 
         this.level = this.MatterHandler.LoadLevel(index);
-        this.level.toMakeNewLevel = (i) => this.loadNewLevel(i);
-        this.player = new Player(this.MatterHandler);
+        this.level.changeLevelFunc = (i) => this.loadNewLevel(i);
+
+        this.player.resetWormPos(this.level.getSnekStartPos());
+
     }
     update() {
         this.player.update();

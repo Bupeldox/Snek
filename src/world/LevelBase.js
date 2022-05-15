@@ -1,4 +1,5 @@
 import { Colors } from "../Utilities/Colors";
+import Vec2 from "../Utilities/vec2";
 
 
 export class LevelBase {
@@ -16,6 +17,9 @@ export class LevelBase {
     }
     createBodies() {
         return [];
+    }
+    getSnekStartPos(){
+        return new Vec2(300, 730);
     }
     addWalls() {
         var props = { isStatic: true, render: { fillStyle: Colors.Obsticals } };
