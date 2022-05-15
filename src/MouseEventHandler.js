@@ -33,16 +33,19 @@ export default class MouseDraggingHelper {
         this.mouseLeaveHandler = new JQEventHandler(allElement, "mouseleave");
         this.mouseMoveHandler = new JQEventHandler(allElement, "mousemove");
         this.touchMoveHandler = new JQEventHandler(allElement,"touchmove");
+        this.spaceHandler = new ButtonEventHandler(32,allElement);
+
         this.spaceDownHandler = new JQEventHandler(allElement,"keydown");
         this.spaceUpHandler = new JQEventHandler(allElement,"keyup");
 
         this.mouseDownHandler.register((p)=>{this.startDrag(p)});
         this.mouseUpHandler.register((p)=>{this.stopDrag(p)});
-        this.mouseLeaveHandler.register((p)=>{this.stopDrag(p)})
+        this.mouseLeaveHandler.register((p)=>{this.stopDrag(p)});
         this.mouseMoveHandler.register((p)=>{this.move(p)});
         this.touchMoveHandler.register((p)=>{this.move(p)});
-        this.spaceDownHandler.register((e)=>{if(e.which == 32){this.startDrag()}})
-        this.spaceUpHandler.register((e)=>{if(e.which == 32){this.stopDrag()}})
+
+        this.spaceHandler.registerDown((e)=>{this.startDrag()});
+        this.spaceHandler.registerUp((e)=>{this.stopDrag()});
 
     }
     startDrag(){
@@ -78,6 +81,43 @@ export default class MouseDraggingHelper {
         x=this.element.width * x/this.element.offsetWidth
 
         return new Vec2(x, y);
+    }
+
+}
+
+
+export class ButtonEventHandler {
+    constructor(key,element){
+        this.key = key;
+        this.keyDownListeners = [];
+        this.keyUpListeners = [];
+        this.isPressed = false;
+        $(element).on("keydown", (e) => { this.onKeyDown(e) });
+        $(element).on("keyup", (e) => { this.onKeyUp(e) });
+    }
+    onKeyDown(e){
+        if(e.which == this.key){
+            this.isPressed = true;
+            this.callListeners(this.keyDownListeners,e);
+        }
+    }
+    onKeyUp(e){
+        if(e.which == this.key){
+            this.isPressed = false;
+            this.callListeners(this.keyUpListeners,e);
+        }
+    }
+    registerDown(f){
+        this.keyDownListeners.push(f);
+    }
+    registerUp(f){
+        this.keyUpListeners.push(f);
+    }
+    callListeners(listneners,e){
+        for (var i = 0; i < listneners.length; i++) {
+            var f = listneners[i];
+            f(e);
+        }
     }
 
 }

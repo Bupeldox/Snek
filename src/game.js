@@ -2,38 +2,13 @@
 import $ from "jquery";
 import { Colors } from "./Colors.js";
 import MatterHandler from "./MatterHandler.js";
-import MouseDraggingHelper, { JQEventHandler } from "./MouseEventHandler";
+import { Player } from "./Player";
 import Vec2 from "./vec2.js";
-import Worm from "./WormV2.js";
 
-const MOVE_DIST = 10;
-const WORM_RADIUS = 20;
-const MAX_LENGTH = 400;
-const MOVE_SPEED = 150/1000; //px per second
-
-
-class Player {
-    constructor(MatterHandler){
-        this.MatterHandler = MatterHandler
- 
-        this.MouseDraggingHelper = new MouseDraggingHelper(this.MatterHandler.domElement,document.body);
-        this.clickHandler = new JQEventHandler(document.getElementById("thing"),"click");
-        this.clickHandler.register(()=>{this.Worm.onPhysicsBreak()})
-        this.Worm = new Worm(MOVE_DIST,MAX_LENGTH,MOVE_SPEED,WORM_RADIUS,this.MatterHandler,()=>{this.resetWormPos()});
-        this.resetWormPos();
-    }
-    resetWormPos(){
-        this.Worm.move(new Vec2(300,730));
-    }
-    update(){
-        if(this.MouseDraggingHelper.isDragging){
-            this.Worm.move(this.MouseDraggingHelper.pos);
-        }
-        this.Worm.update();
-    }
-
-    
-}
+export const MOVE_DIST = 10;
+export const WORM_RADIUS = 20;
+export const MAX_LENGTH = 400;
+export const MOVE_SPEED = 150/1000; //px per second
 
 
 export default class Game{

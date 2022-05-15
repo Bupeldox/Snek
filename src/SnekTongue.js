@@ -89,7 +89,7 @@ export default class SnekTongue {
         var tonguePath = this.calculateTonguePath();
 
         var rota = (i, angle) => {
-            return i.rotate(angle-(Math.PI / 2)  ).add(new Vec2(this.pos).add(new Vec2(0,this.tongueDist).rotate(this.baseAngle)))
+            return i.rotate(angle-(Math.PI / 2)).add(new Vec2(0,this.tongueDist).rotate(this.baseAngle)).add(new Vec2(this.pos));
         };
 
         tonguePath = tonguePath.map(i => {
