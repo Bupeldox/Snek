@@ -1,6 +1,6 @@
-import { Colors } from "./Colors.js";
+import { Colors } from "../Utilities/Colors.js";
 import SnekTongue from "./SnekTongue.js";
-import Vec2 from "./vec2.js";
+import Vec2 from "../Utilities/vec2.js";
 import WormJoint from "./WormJoint";
 
 export const maxAngle = 0.3;
@@ -69,8 +69,8 @@ export default class Snek {
         this.tail = new SnekTongue(this.matterHandler, this.width);
 
     }
-    
-    create(p){
+
+    create(p) {
         if (this.objects.length < this.partCount) {
             this.createWholeWorm(p);
             return;
@@ -102,13 +102,13 @@ export default class Snek {
         }
 
         var tongueVec = lastSegmentVec.rotate(relativeTongueAngle);
-        var tongueAngle = tongueVec.angle(new Vec2(0,1));
+        var tongueAngle = tongueVec.angle(new Vec2(0, 1));
 
 
-        this.tongue.updateAngle(tongueAngle,lastSegmentVec.angle(new Vec2(0,1)));
+        this.tongue.updateAngle(tongueAngle, lastSegmentVec.angle(new Vec2(0, 1)));
     }
-    
-    reverse(p){
+
+    reverse(p) {
         p = new Vec2(p);
         this.isReversing = true;
 
@@ -140,10 +140,10 @@ export default class Snek {
         }
 
         var tongueVec = lastSegmentVec.rotate(-relativeTongueAngle);
-        var tongueAngle = tongueVec.angle(new Vec2(0,1));
+        var tongueAngle = tongueVec.angle(new Vec2(0, 1));
 
 
-        this.tail.updateAngle(tongueAngle,lastSegmentVec.angle(new Vec2(0,1)));
+        this.tail.updateAngle(tongueAngle, lastSegmentVec.angle(new Vec2(0, 1)));
     }
 
     shuffleAnglesBackwards() {
@@ -154,9 +154,9 @@ export default class Snek {
             obj.myJoint.setAngle(nextObj.myJoint.angleHistory[0]);
         }
     }
-    shuffleAnglesForwards(){
+    shuffleAnglesForwards() {
         //for moving 'backwards'
-        for (let i = this.objects.length - 2; i >=2; i--) {
+        for (let i = this.objects.length - 2; i >= 2; i--) {
             const obj = this.objects[i];
             const nextObj = this.objects[i - 1];
             obj.myJoint.setAngle(nextObj.myJoint.angleHistory[0]);
@@ -177,12 +177,12 @@ export default class Snek {
         } else {
             this.tongue.hide();
         }
-        if(this.isReversing){
+        if (this.isReversing) {
             this.tail.show();
         } else {
             this.tail.hide();
-        } 
-        
+        }
+
 
         this.isMoving = false;
         this.isReversing = false;
@@ -201,4 +201,3 @@ export default class Snek {
     }
 
 }
-

@@ -1,14 +1,16 @@
-import { Colors } from "./Colors";
-import Vec2 from "./vec2";
+import { Colors } from "../Utilities/Colors";
+import Vec2 from "../Utilities/vec2";
 
 function pSin(x) {
     return (Math.sin(x) / 2) + 0.5;
 }
+
 function rotater(x) {
     return new Vec2(Math.sin(x), Math.cos(x));
 }
+
 function lerp(a, b, proportion) {
-    var delta = b-a;
+    var delta = b - a;
     delta *= proportion;
     return a + delta;
 }
@@ -50,8 +52,10 @@ export default class SnekTongue {
         var a = new Vec2(0, halfTongueWidth);
         var b = new Vec2(0 + tongueLength, halfTongueWidth);
         var c = new Vec2(b.x - Math.tan(tongueEndAngle / 2) * halfTongueWidth, 0);
-        var d = b.clone(); d.y = d.y * -1;
-        var e = a.clone(); e.y = e.y * -1;
+        var d = b.clone();
+        d.y = d.y * -1;
+        var e = a.clone();
+        e.y = e.y * -1;
         var f = new Vec2(0 - Math.tan(tongueBaseAngle / 2) * halfTongueWidth, 0);
 
         b = b.add(r);
@@ -64,7 +68,7 @@ export default class SnekTongue {
         e.rotatePer = 0;
         f.rotatePer = 0;
 
-        return [a, b, c, d,  e, f];
+        return [a, b, c, d, e, f];
 
     }
 
@@ -88,7 +92,7 @@ export default class SnekTongue {
         var tonguePath = this.calculateTonguePath();
 
         var rota = (i, angle) => {
-            return i.rotate(angle-(Math.PI / 2)).add(new Vec2(0,this.tongueDist).rotate(this.baseAngle)).add(new Vec2(this.pos));
+            return i.rotate(angle - (Math.PI / 2)).add(new Vec2(0, this.tongueDist).rotate(this.baseAngle)).add(new Vec2(this.pos));
         };
 
         tonguePath = tonguePath.map(i => {
@@ -114,8 +118,8 @@ export default class SnekTongue {
         this.baseAngle = baseAngle;
     }
     show() { this.showing = true; }
-    hide() { 
-        this.showing = false; 
+    hide() {
+        this.showing = false;
     }
 
     destroy() {

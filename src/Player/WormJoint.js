@@ -1,5 +1,5 @@
-import { Colors } from "./Colors.js";
-import Vec2 from "./vec2.js";
+import { Colors } from "../Utilities/Colors.js";
+import Vec2 from "../Utilities/vec2.js";
 import { historyLength, jointStiffness, maxAngle, maxDeltaAngle } from "./Worm";
 
 export default class WormJoint {
@@ -57,7 +57,7 @@ export default class WormJoint {
             angle = maxAngle * sign;
         }
         this.targetAngle = angle;
-        
+
 
         if (this.angleHistory.length >= historyLength) {
             this.angleHistory.shift();
@@ -87,6 +87,5 @@ export default class WormJoint {
         j.length = Math.max(length, 2);
 
     }
-    update() {
-    }
+    update() {}
 }
