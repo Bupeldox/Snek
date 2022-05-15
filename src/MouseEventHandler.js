@@ -33,7 +33,6 @@ export default class MouseDraggingHelper {
         this.mouseLeaveHandler = new JQEventHandler(allElement, "mouseleave");
         this.mouseMoveHandler = new JQEventHandler(allElement, "mousemove");
         this.touchMoveHandler = new JQEventHandler(allElement,"touchmove");
-        this.spaceHandler = new ButtonEventHandler(32,allElement);
 
         this.spaceDownHandler = new JQEventHandler(allElement,"keydown");
         this.spaceUpHandler = new JQEventHandler(allElement,"keyup");
@@ -43,10 +42,6 @@ export default class MouseDraggingHelper {
         this.mouseLeaveHandler.register((p)=>{this.stopDrag(p)});
         this.mouseMoveHandler.register((p)=>{this.move(p)});
         this.touchMoveHandler.register((p)=>{this.move(p)});
-
-        this.spaceHandler.registerDown((e)=>{this.startDrag()});
-        this.spaceHandler.registerUp((e)=>{this.stopDrag()});
-
     }
     startDrag(){
         this.isDragging = true;
@@ -87,7 +82,7 @@ export default class MouseDraggingHelper {
 
 
 export class ButtonEventHandler {
-    constructor(key,element){
+    constructor(element,key){
         this.key = key;
         this.keyDownListeners = [];
         this.keyUpListeners = [];
@@ -96,13 +91,13 @@ export class ButtonEventHandler {
         $(element).on("keyup", (e) => { this.onKeyUp(e) });
     }
     onKeyDown(e){
-        if(e.which == this.key){
+        if(e.key == this.key){
             this.isPressed = true;
             this.callListeners(this.keyDownListeners,e);
         }
     }
     onKeyUp(e){
-        if(e.which == this.key){
+        if(e.key == this.key){
             this.isPressed = false;
             this.callListeners(this.keyUpListeners,e);
         }

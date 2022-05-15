@@ -170,7 +170,7 @@ export default class MatterHandler{
     }
     registerAfterDraw(func){
        var thing = Events.on(render, "afterRender", (a,c,b)=>func(render.canvas.getContext("2d"),{a,b,c}));
-       console.log(thing);
+      
        return thing;
     }
     unregisterAfterDraw(func){
