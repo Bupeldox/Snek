@@ -71,10 +71,16 @@ export default class Snek {
     }
 
     create(p) {
+        console.log("created");
         if (this.objects.length < this.partCount) {
             this.createWholeWorm(p);
-            return;
         }
+        this.objects.forEach((obj,i) => {
+            if(obj && obj.hasOwnProperty("myJoint")){
+                var joint = obj.myJoint;
+                joint.setInitialAngle(startPos[i]);
+            }
+        });
     }
 
     move(p) {
@@ -205,3 +211,6 @@ export default class Snek {
     }
 
 }
+
+
+const startPos = [0.09999999999999999,0.3,0.3,0.3,1.3877787807814457e-17,-0.3,-0.3,-0.2708692583473079,-0.011523680444216602,0.3,0.3,0.3,0.3,0.03705739484379969,-0.3,-0.3,-0.3,-0.3,-0.18303876325549123,0.16696123674450877,0.3,0.3,0.3,0.3,0.05976896222694428,-0.2902310377730557,-0.3,-0.3,-0.18566547127061117,-0.052035301810621735,0.1985709437649139,0.3,0.3,0.2991791584496768,0.14516092160457436,0.05656312836087348,-0.17703612269520846,-0.3,-0.3];

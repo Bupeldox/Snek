@@ -45,6 +45,11 @@ export default class WormJoint {
 
     }
 
+    setInitialAngle(angle){
+        for(var i=0;i<historyLength;i++){
+            this.setAngle(angle);
+        }
+    }
 
     setColor(angle) {
         var strain = Math.abs(angle / maxAngle);
