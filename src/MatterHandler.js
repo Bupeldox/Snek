@@ -37,7 +37,7 @@ var render = Render.create({
 });
 
 document.getElementById("fullscreen").addEventListener("click",()=>{
-    render.element.querySelector("canvas").requestFullscreen();
+    render.element.requestFullscreen();
 })
 
 

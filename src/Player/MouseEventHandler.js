@@ -64,12 +64,17 @@ export default class MouseDraggingHelper {
         this.pos = p;
     }
     eToVec(e) {
-        var oTop = this.element.offsetTop;
-        var oLeft = this.element.offsetLeft;
 
-        var x = e.pageX - oLeft;
-        var y = e.pageY - oTop;
+        var x,y;
 
+        var rect = this.element.getBoundingClientRect()
+
+        var oTop = rect.x;
+        var oLeft = rect.y;
+        
+        x = e.pageX - oLeft;
+        y = e.pageY - oTop;
+        
         y = this.element.height * y / this.element.offsetHeight
         x = this.element.width * x / this.element.offsetWidth
 

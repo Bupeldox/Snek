@@ -10,6 +10,9 @@ canvas {
     max-height: min(min(calc(100% - 50px), 100vh), 800px);
     margin:25px;
 }
+#canvasTarget{
+    background-color:#5A6637;
+}
 .overlay{
     padding:25px 50px;;
     z-index: 1;
