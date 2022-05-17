@@ -1,8 +1,4 @@
 canvas {
-    max-width: min(calc(100% - 50px), 1000px);
-    max-height: max(calc(100% - 50px), 800px);
-    margin:25px;
-
     user-select: none;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -10,6 +6,9 @@ canvas {
     top:0;
     left:0;
     z-index: -1;
+    max-width: min(min(calc(100% - 50px), 100vw), 1000px);
+    max-height: min(min(calc(100% - 50px), 100vh), 800px);
+    margin:25px;
 }
 .overlay{
     padding:25px 50px;;
@@ -17,15 +16,29 @@ canvas {
     user-select: none;
     -webkit-user-select: none;
     -moz-user-select: none;
+    display: flex;;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    margin-top:20px;
+}
+.overlay h1{
+    margin:0;
 }
 
-body,html{
-    height: 100%;
-}
 body {
-    height:100%;
     margin: 0;
     background-color: #5A6637;
     color:#1d2011;
     font-family: 'Bevellier', sans-serif;
+}
+
+button{
+    background: #774044;
+	color: inherit;
+    padding:15px 30px;
+	border: 1px solid #5E3235;
+	
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
 }

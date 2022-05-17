@@ -7,7 +7,7 @@ export class Player {
     constructor(MatterHandler) {
         this.MatterHandler = MatterHandler;
 
-        this.MouseDraggingHelper = new MouseDraggingHelper(this.MatterHandler.domElement, document.body);
+        this.MouseDraggingHelper = new MouseDraggingHelper(this.MatterHandler.domElement, document);
         this.clickHandler = new JQEventHandler(document.getElementById("thing"), "click");
         this.reverseControlHandler = new ButtonEventHandler(document.body, "s");
         this.forwardsControlHandler = new ButtonEventHandler(document.body, "w");

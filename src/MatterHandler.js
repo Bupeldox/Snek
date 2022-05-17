@@ -25,7 +25,7 @@ const width = 1000;
 
 // create a renderer
 var render = Render.create({
-    element: document.body,
+    element: document.getElementById("canvasTarget") || document.body,
     engine: engine,
     options: {
         height: height,
@@ -35,6 +35,10 @@ var render = Render.create({
     }
 
 });
+
+document.getElementById("fullscreen").addEventListener("click",()=>{
+    render.element.querySelector("canvas").requestFullscreen();
+})
 
 
 
