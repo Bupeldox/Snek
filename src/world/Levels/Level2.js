@@ -23,7 +23,7 @@ export class Level2 extends LevelBase {
         var grassCount = (w - 40) / grassSize;
 
         for (var i = 0; i < grassCount; i++) {
-            var rect = this.MatterWorldHandler.createRect(i * grassSpacing, h - 40, grassSize, grassSize, grassProps, Math.PI / 4);
+            var rect = this.MatterWorldHandler.createRect(i * grassSpacing, h, grassSize, grassSize, grassProps, Math.PI / 4);
             this.bodies.push(rect);
         }
 

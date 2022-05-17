@@ -22,7 +22,6 @@ export default class Game {
         this.update();
     }
     loadNewLevel(index) {
-        debugger;
         this.MatterHandler.unloadLevel();
         if (this.player) {
             this.player.destroy();
@@ -44,8 +43,6 @@ export default class Game {
         }
     }
 }
-
-
 
 
 var game = new Game();

@@ -23,9 +23,12 @@ export class LevelBase {
     }
     addWalls() {
         var props = { isStatic: true, render: { fillStyle: Colors.Obsticals } };
-        this.bodies.push(this.MatterWorldHandler.createRect(this.width / 2, this.height, this.width, 100, props));
-        this.bodies.push(this.MatterWorldHandler.createRect(this.width / 2, 0, this.width, 100, props));
-        this.bodies.push(this.MatterWorldHandler.createRect(0, this.height / 2, 100, this.height, props));
-        this.bodies.push(this.MatterWorldHandler.createRect(this.width, this.height / 2, 100, this.height, props));
+        var wallWidth = 100;
+        var wallOverlap = 0.8;
+        var wallEdgeOffset = wallOverlap*wallWidth/2
+        this.bodies.push(this.MatterWorldHandler.createRect(this.width / 2, this.height+wallEdgeOffset, this.width, wallWidth, props));//bottom
+        this.bodies.push(this.MatterWorldHandler.createRect(this.width / 2, -wallEdgeOffset, this.width, wallWidth, props)); //top
+        this.bodies.push(this.MatterWorldHandler.createRect(-wallEdgeOffset, this.height / 2, wallWidth, this.height, props));//left
+        this.bodies.push(this.MatterWorldHandler.createRect(this.width+wallEdgeOffset, this.height / 2, wallWidth, this.height, props));//right
     }
 }

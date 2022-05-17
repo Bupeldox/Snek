@@ -39,14 +39,15 @@ var render = Render.create({
 
 
 
-
 // run the renderer
 Render.run(render);
 
 // create runner
 var runner = Runner.create({
-    isFixed: true,
+    //isFixed: true,
 });
+runner.minDelta = 1;
+runner.maxDelta = 100;
 
 // run the engine
 Runner.run(runner, engine);
