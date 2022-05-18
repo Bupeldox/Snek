@@ -4,10 +4,13 @@ const path = require('path');
 
 
 module.exports = {
-    entry: "./src/bundles.js",
+    entry:{
+        "levelEditor.js":"./src/levelEditor.js",
+        "bundle.js":"./src/bundles.js"
+    },
     mode: 'development',
     output: {
-        filename: "bundles.js",
+        filename: "[name]",
         path: path.resolve(__dirname, "docs"),
 
     },

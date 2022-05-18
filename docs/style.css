@@ -10,9 +10,14 @@ canvas {
     max-height: min(min(calc(100% - 50px), 100vh), 800px);
     margin:25px;
 }
+.levelEditorCanvasTarget canvas{
+    position: relative;
+    z-index: 0;
+}
 #canvasTarget{
     background-color:#5A6637;
 }
+
 .overlay{
     padding:25px 50px;;
     z-index: 1;
@@ -44,4 +49,8 @@ button{
 	font: inherit;
 	cursor: pointer;
 	outline: inherit;
+}
+
+#templates{
+    display: none;
 }
