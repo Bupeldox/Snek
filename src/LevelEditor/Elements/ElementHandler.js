@@ -25,13 +25,13 @@ class WorldElement{
         this.body;
         this.position = startPos;
         this.rotation = 0;
-        
+        this.isMoving = false;
         this.options = {
             isStatic:isStatic,
            render:{}
         };
 
-        this.inspectorElement = $("#templates").find(".inspectorItemElement").clone();
+        this.inspectorElement = $("#templates").find(".inspectorItem.Element").clone();
 
         $(this.inspectorElement).find("[name='width']").val(this.rotation);
         $(this.inspectorElement).find("[name='isStatic']").val(this.options.isStatic);
@@ -42,10 +42,19 @@ class WorldElement{
         $("#inspectorItems").append(this.inspectorElement);
         this.events();
     }
+    
     events(){
         
         $(this.inspectorElement).on("click",".move",()=>{
+            this.select(true);
+        });
+        $(this.inspectorElement).on("mouseenter",".move",()=>{
             this.select();
+        });
+        $(this.inspectorElement).on("mouseleave",".move",()=>{
+            if(!this.isMoving){
+                this.deselect();
+            }
         });
         $(this.inspectorElement).on("input","[name='height'], [name='width']",()=>{
             this.changeDimentions(+$(this.inspectorElement).find("[name='height']").val(),+$(this.inspectorElement).find("[name='width']").val());
@@ -80,17 +89,37 @@ class WorldElement{
             this.options.render.fillStyle = Colors.Obsticals;
         }
     }
-    select(){
+    select(startMoving){
         this.selected = true;
+        if(startMoving){
+            this.isMoving = true;
+        }
         this.body.render.fillStyle="#f00";
     }   
-    deselect(){
+    deselect(cancelMove){
         this.selected = false;
+        if(cancelMove){
+            this.isMoving = false;
+        }
         if(this.options.hasOwnProperty("render") && this.options.render.hasOwnProperty("fillStyle")){
         this.body.render.fillStyle=this.options.render.fillStyle;
         }else{
             this.body.render.fillStyle = undefined;
         }
+    }
+    getExportObject(){
+        return {
+            pos:{
+                x:this.position.x,
+                y:this.position.y
+            }
+            ,rotation:this.rotation
+            ,isStatic:this.isStatic
+        }
+    }
+    setFromExportData(data){
+        this.position = new Vec2(data.pos);
+        this.rotation = data.rotation;
     }
 }
 
@@ -109,7 +138,8 @@ class RectElem extends WorldElement {
             this.matterHandler.remove(this.body);
         }
         this.body = this.matterHandler.createRect(
-            this.position,
+            this.position.x,
+            this.position.y,
             this.width,
             this.height,
             this.options,
@@ -121,6 +151,19 @@ class RectElem extends WorldElement {
         this.width = b;
         this.reCreateBody()
     }
+    getExportObject(){
+        var obj = super.getExportObject()
+        obj.height=this.height;
+        obj.width = this.width;
+        obj.shape = this.shape;
+        return obj;
+    }
+    setFromExportData(data){
+        super.setFromExportData(data);
+        this.height = data.height;
+        this.width = data.width;
+        this.reCreateBody();
+    }
 }
 class CircleElem extends WorldElement {
     constructor(matterHandler,isStatic = true){
@@ -129,7 +172,7 @@ class CircleElem extends WorldElement {
         this.shape = "circle";
     }
     reCreateBody(){
-        this.matterHandler.removeObject(this.body);
+        this.matterHandler.remove(this.body);
         this.body = matterHandler.createCircle(
             this.position,
             this.radius,
@@ -142,5 +185,16 @@ class CircleElem extends WorldElement {
         this.radius = a;
 
         this.reCreateBody()
+    }
+    getExportObject(){
+        var obj = super.getExportObject()
+        obj.radius = this.radius;
+        obj.shape = this.shape;
+        return obj;
+    }
+    setFromExportData(data){
+        super.setFromExportData(data);
+        this.radius = data.radius;
+        this.reCreateBody();
     }
 }

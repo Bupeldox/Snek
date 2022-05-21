@@ -1,8 +1,9 @@
 import Vec2 from "./Utilities/vec2.js";
 import $ from "jquery";
-import LevelEditorMatterHandler from "./LevelEditor/LevelEditorMatterHandler.js"
+import { LevelEditorMatterHandler } from "./MatterHandler.js"
 import { ElementFactory } from "./LevelEditor/Elements/ElementHandler.js";
 import MouseDraggingHelper from "./Player/MouseEventHandler.js";
+import LevelFactory from "./world/LevelHandler.js";
 
 class LevelEditor {
     constructor() {
@@ -11,32 +12,81 @@ class LevelEditor {
         this.ElementFactory = new ElementFactory(this.matterHandler);
         this.elements = [];
         this.events();
+        this.addElement();
+        this.elements[0].changeDimentions(100,this.matterHandler.width+40);
+        this.elements[0].move(new Vec2(this.matterHandler.width/2,this.matterHandler.height));
+       
     }
 
     events() {
-        $("#addElement").on("click", () => { this.addElement(); });
-        this.mouseEventHandler.mouseDownHandler.register((e)=>{
-            this.onClick(e);
+        $("#addElement").on("click", () => { 
+            this.addElement(); 
         });
+        this.mouseEventHandler.mouseMoveHandler.register((e)=>{
+            this.onMove(e);
+        });
+        this.mouseEventHandler.mouseUpHandler.register((e)=>{
+            this.onMouseUp(e);
+        });
+        $("#exportButton").on("click",()=>{
+            if($("#jsonOutput").val()!=""){
+                this.import($("#jsonOutput").val());
+            }else{
+                this.export();
+            }
+        });
+        $("#jsonOutput").on("input",(e)=>{
+            if($("#jsonOutput").val()!=""){
+                $("#exportButton").text("Import");
+            }else{
+                $("#exportButton").text("Export");
+            }
+        })
     }
-
-    onClick(e){
+    onMove(e){
         var pos = this.mouseEventHandler.eToVec(e);
         for (let i = 0; i < this.elements.length; i++) {
             const element = this.elements[i];
-            if(element.selected){
+            if(element.selected && element.isMoving){
                 element.move(pos);
-                element.deselect();
                 return;
             }
         }
     }
-
-
+    onMouseUp(e){
+        var pos = this.mouseEventHandler.eToVec(e);
+        for (let i = 0; i < this.elements.length; i++) {
+            const element = this.elements[i];
+            if(element.selected){
+                element.deselect(true);
+                return;
+            }
+        }
+    }
     addElement() {
+        this.elements.push(this.ElementFactory.createRect());
+    }
 
-        this.elements .push(this.ElementFactory.createRect());
-
+    export(){
+        var outputObj = [];
+        for (let i = 0; i < this.elements.length; i++) {
+            const element = this.elements[i];
+            outputObj.push(element.getExportObject());
+        }
+        $("#jsonOutput").val(JSON.stringify(outputObj));
+    }
+    import(json){
+        var elemsObj = JSON.parse(json);
+        for (let i = 0; i < this.elements.length; i++) {
+            const elemData = this.elements[i];
+            var element;
+            if(elemData.shape == "rect"){
+                element = this.ElementFactory.createRect(elemData.isStatic);
+            }else{
+                element = this.ElementFactory.createCircle(elemData.isStatic);
+            }
+            element.setFromExportData(elemData);
+        }
     }
 
 }

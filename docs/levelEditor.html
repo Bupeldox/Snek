@@ -20,17 +20,28 @@
                 </button>
             </div>
             <div id="inspectorItems">
-
+               
             </div>
             <div id="templates">
-                <div class="inspectorItemElement">
+                <div class="inspectorItem Element">
                     <button class="move button"> Move</button>
                     <input type="text" name="height" placeholder="height">
                     <input type="text" name="width" placeholder="width">
                     <input type="range" min="0" max="6.3" step="0.1" name="rotation" placeholder="rotation">
                     <input type="checkbox" name="isStatic">
                 </div>
+                <div class="inspectorItem snek">
+                    <button class="move button"> Move</button>
+                    <select name="shape">
+                    </select>
+                </div>
             </div>
+        </div>
+    </div>
+    <div id="fileControls">
+        <button class="button" id="exportButton">Export</button>
+        <input type="text" id="jsonOutput">
+
         </div>
     </div>
     <script src="./levelEditor.js"></script>

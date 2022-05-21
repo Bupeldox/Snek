@@ -36,12 +36,6 @@ var render = Render.create({
 
 });
 
-document.getElementById("fullscreen").addEventListener("click",()=>{
-    render.element.requestFullscreen();
-})
-
-
-
 
 // run the renderer
 Render.run(render);
@@ -61,9 +55,34 @@ Runner.run(runner, engine);
 const WORM_CATEGORY = 0b0010;
 const DEFAULT_CATEGORY = 0b0001;
 
-export default class MatterHandler {
+class MatterHandlerBase{
     constructor() {
         this.domElement = render.canvas;
+        this.height = height;
+        this.width = width;
+    }
+    remove(bod) {
+        if (bod) {
+            if (bod.myConstraints) {
+                for (var i = 0; i < bod.myConstraints.length; i++) {
+                    Composite.removeConstraint(engine.world, bod.myConstraints[i]);
+                }
+            }
+            Composite.remove(engine.world, bod, true);
+        }
+    }
+}
+
+
+export default class MatterHandler extends MatterHandlerBase {
+    constructor(){
+        super();
+            
+        document.getElementById("fullscreen").addEventListener("click",()=>{
+            render.element.requestFullscreen();
+        });
+
+
 
     }
     addSnekSegment(p, width) {
@@ -125,17 +144,7 @@ export default class MatterHandler {
         }
 
     }
-    removeObject(bod) {
-        if (bod) {
-
-            if (bod.myConstraints) {
-                for (var i = 0; i < bod.myConstraints.length; i++) {
-                    Composite.removeConstraint(engine.world, bod.myConstraints[i]);
-                }
-            }
-            Composite.remove(engine.world, bod, true);
-        }
-    }
+    
     applyForce(bod, from, vec) {
         Body.applyForce(bod, Matter.Vector.create(from.x, from.y), Matter.Vector.create(vec.x, vec.y));
     }
@@ -177,10 +186,8 @@ export default class MatterHandler {
 }
 
 
-export class MatterWorldHandler {
-    constructor() {
-        this.domElement = render.canvas;
-    }
+export class MatterWorldHandler extends MatterHandlerBase {
+  
     createRect(x, y, width, height, options, rotation = 0) {
         var b = Bodies.rectangle(x, y, width, height, options);
 
@@ -221,7 +228,41 @@ export class MatterWorldHandler {
                
         });
     }
-    removeObj(bod){
-        Composite.remove(engine.world, bod, true);
+}
+
+
+export class LevelEditorMatterHandler extends MatterWorldHandler {
+  
+    createCircle(pos, radius, options, rotation = 0) {
+        var b = Bodies.circle(pos.x, pos.y, radius, options);
+
+        if (rotation != 0) {
+            Body.rotate(b, rotation);
+        }
+
+        Composite.add(engine.world, b);
+        return b;
     }
+
+    move(body,pos){
+        Body.setPosition(body,Matter.Vector.create(pos.x,pos.y));
+    }
+    rotate(body,angle){
+        Body.setAngle(body,angle);
+    }
+
+    updateIsStatic(body,val){
+        Body.setStatic(body,val);
+    }
+
+    registerAfterDraw(func) {
+        var thing = Events.on(render, "afterRender", (a, c, b) => func(render.canvas.getContext("2d"), { a, b, c }));
+
+        return thing;
+    }
+
+    unregisterAfterDraw(func) {
+        Events.off(render, "afterRender", func);
+    }
+
 }

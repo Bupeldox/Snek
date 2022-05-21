@@ -46,7 +46,7 @@ export default class WormV2 {
         if (this.objects.length >= (this.maxLength / this.moveDist)) {
             var toRemove = this.objects[0];
             removedPos = new Vec2(toRemove.position);
-            this.matterHandler.removeObject(toRemove);
+            this.matterHandler.remove(toRemove);
             this.objects.shift();
         }
 

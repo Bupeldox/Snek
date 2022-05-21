@@ -201,11 +201,11 @@ export default class Snek {
     removeWholeWorm() {
         for (let i = 0; i < this.objects.length; i++) {
             const e = this.objects[i];
-            this.matterHandler.removeObject(e);
+            this.matterHandler.remove(e);
         }
         this.tongue.destroy();
         this.tail.destroy();
-        this.matterHandler.removeObject(this.eye)
+        this.matterHandler.remove(this.eye)
         this.objects = [];
         this.eye = undefined;
     }
