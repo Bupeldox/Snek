@@ -1,8 +1,10 @@
 import Vec2 from "../Utilities/vec2.js";
 import $ from "jquery";
-import { LevelEditorMatterHandler } from "../MatterHandler.js";
+import { LevelEditorMatterHandler, MatterHandler } from "../MatterHandler.js";
 import { ElementFactory } from "./ElementFactory.js";
 import MouseDraggingHelper from "../Player/MouseEventHandler.js";
+import { Player } from "../Player/Player.js";
+import { Colors } from "../Utilities/Colors.js";
 
 export class LevelEditor {
     constructor() {
@@ -14,6 +16,11 @@ export class LevelEditor {
         this.events();
         this.elements.push(...this.Prefabs.walls(this.matterHandler.height,this.matterHandler.width));
 
+        this.player = new EditerPlayerHelper(this.matterHandler);
+
+        var goal = this.addElement("circle");
+        goal.options.render.fillStyle = Colors.Collectable;
+        goal.reCreateBody();
     }
 
     events() {
@@ -29,10 +36,22 @@ export class LevelEditor {
             this.onMouseUp(e);
         });
         $("#exportButton").on("click", () => {
+            
             if ($("#jsonOutput").val() != "") {
                 this.import($("#jsonOutput").val());
             } else {
                 this.export();
+            }
+        });
+        $("#movePlayerStart").on("click",()=>{
+            this.movingPlayerStart = true;
+        });
+        $("#togglePlay").on("mousedown", () => {
+            if(this.player.isPlaying){
+                this.player.stopPlaying();
+            }else{
+                this.player.play();
+                this.reCreateLevelAndPlay();
             }
         });
         $("#jsonOutput").on("input", (e) => {
@@ -56,18 +75,34 @@ export class LevelEditor {
         return false;
     }
     onMove(e) {
-        var pos = this.mouseEventHandler.eToVec(e);
-        var element = this.getFirstSelected((i)=>i.selected && i.isMoving);
-        if (element) {
-            element.move(pos);
+        if(!this.movingPlayerStart){
+            var element = this.getFirstSelected((i)=>i.selected && i.isMoving);
+            if (element) {
+                var pos = this.mouseEventHandler.eToVec(e);
+                element.move(pos);
+            }
+        }else{
+            var pos = this.mouseEventHandler.eToVec(e);
+            this.player.setStartPosition(pos);
         }
-        
     }
     onMouseUp(e) {
-        if($(e.target).hasClass("copy")){
+        if(this.movingPlayerStart){
+            this.movingPlayerStart = false;
+        }else if($(e.target).hasClass("copy")){
             var element = this.getFirstSelected();
 
             this.duplicate(element);
+            element.deselect(true);
+        }else if($(e.target).hasClass("delete")){
+            var element = this.getFirstSelected();
+
+            element.destroy();
+            
+            var index = this.elements.indexOf(element);
+            if (index !== -1) {
+                this.elements.splice(index, 1);
+            }
             element.deselect(true);
         }else{
             var element = this.getFirstSelected((i=>i.selected && i.isMoving));
@@ -79,54 +114,75 @@ export class LevelEditor {
         }   
         
     }
-    addElement(type) {
+    addElement(type,push = true) {
         var newelem;
         if(type == "rect"){
             newelem = this.ElementFactory.createRect();
         }else if(type=="circle"){
             newelem = this.ElementFactory.createCircle();
         }
-        this.elements.push(newelem);
+        if(push){
+            this.elements.push(newelem);
+        }
         return newelem;
     }
     duplicate(element){
        
         var newElement = this.addElement(element.shape);
         newElement.setFromExportData(element.getExportObject());
-        this.elements.push(newElement);
+        
         element.deselect();
         newElement.select(true);
+
             
     }
-    export () {
-        var outputObj = [];
+
+    reCreateLevelAndPlay(){
+        $("#jsonOutput").val("");
+        var json = this.export();
+        this.import(json);
+
+    }
+
+    export() {
+        var outputObj = {};
+        var elementData = [];
         for (let i = 0; i < this.elements.length; i++) {
             const element = this.elements[i];
-            outputObj.push(element.getExportObject());
+            elementData.push(element.getExportObject());
         }
-        $("#jsonOutput").val(JSON.stringify(outputObj));
+
+
+        outputObj.snekSettings = this.player.snekSettings;
+        outputObj.elemData = elementData;
+
+        var json = JSON.stringify(outputObj);
+        $("#jsonOutput").val(json);
         $("#jsonOutput").trigger("input");
+        return json;
     }
     import (json) {
         for (let i = 0; i < this.elements.length; i++) {
             const element = this.elements[i];
             element.destroy();
         }
+    
+        var levelData = JSON.parse(json);
+        
+        //Snek
+        this.player.snekSettings = levelData.snekSettings;
+        this.player.reset();
 
-
-        var elemsObj = JSON.parse(json);
+        this.elements=[];
+        //Elements
+        var elemsObj = levelData.elemData;
         for (let i = 0; i < elemsObj.length; i++) {
             const elemData = elemsObj[i];
-            var element;
-            if (elemData.shape == "rect") {
-                element = this.ElementFactory.createRect(elemData.isStatic);
-            } else {
-                element = this.ElementFactory.createCircle(elemData.isStatic);
-            }
+            var element = this.addElement(elemData.shape);
             element.setFromExportData(elemData);
-            this.elements.push(element);
         }
     }
+
 }
 
 
@@ -159,4 +215,42 @@ class Prefabs{
         output.push(floor,wallLeft,wallRight,ceil);
         return output;
     }
+}
+
+class EditerPlayerHelper{
+    constructor(mh){
+        this.player = new Player(mh);
+        this.tempSnekHolder = this.player.Worm;
+        this.snekSettings = {
+            startPos:new Vec2(200,200)
+        };
+        this.isPlaying = false;
+
+        this.play();
+    }
+    setStartPosition(p){
+        this.snekSettings.startPos = p;
+        this.player.resetWormPos(p);
+    }
+    reset(){
+        this.player.resetWormPos(this.snekSettings.startPos);
+    }
+    play(){
+        //this.player.Worm = this.tempSnekHolder;
+        this.player.resetWormPos(this.snekSettings.startPos);
+        this.isPlaying = true;
+        this.update();
+    }
+    stopPlaying(){
+       
+        this.isPlaying = false;
+    }
+    update() {
+        this.player.update();
+
+        if (this.isPlaying) {
+            requestAnimationFrame(() => { this.update() });
+        }
+    }
+
 }

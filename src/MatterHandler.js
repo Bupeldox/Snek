@@ -74,13 +74,15 @@ class MatterHandlerBase{
 }
 
 
-export default class MatterHandler extends MatterHandlerBase {
+export class MatterHandler extends MatterHandlerBase {
     constructor(){
         super();
             
-        document.getElementById("fullscreen").addEventListener("click",()=>{
-            render.element.requestFullscreen();
-        });
+        if(document.getElementById("fullscreen")){
+            document.getElementById("fullscreen").addEventListener("click",()=>{
+                render.element.requestFullscreen();
+            });
+        }
 
 
 
@@ -186,7 +188,7 @@ export default class MatterHandler extends MatterHandlerBase {
 }
 
 
-export class MatterWorldHandler extends MatterHandlerBase {
+export class MatterWorldHandler extends MatterHandler {
   
     createRect(x, y, width, height, options, rotation = 0) {
         var b = Bodies.rectangle(x, y, width, height, options);
@@ -203,6 +205,7 @@ export class MatterWorldHandler extends MatterHandlerBase {
         var b = Bodies.rectangle(x, y, radius, options);
         
         Composite.add(engine.world, b);
+
         
         return b;
     }

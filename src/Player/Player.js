@@ -1,7 +1,8 @@
 import MouseDraggingHelper, { JQEventHandler, ButtonEventHandler } from "./MouseEventHandler";
 import Vec2 from "../Utilities/vec2.js";
 import Worm from "./Worm.js";
-import { MOVE_DIST, MAX_LENGTH, MOVE_SPEED, WORM_RADIUS } from "../game";
+
+import { MAX_LENGTH,MOVE_DIST,MOVE_SPEED,WORM_RADIUS } from "../Utilities/WormSettings.js";
 
 export class Player {
     constructor(MatterHandler) {
@@ -18,6 +19,7 @@ export class Player {
     }
 
     resetWormPos(p) {
+        this.Worm.removeWholeWorm();
         if (!p) {
             p = new Vec2(300, 730);
         }

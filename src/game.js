@@ -1,16 +1,5 @@
-import $ from "jquery";
-import { Colors } from "./Utilities/Colors.js";
-import LevelFactory from "./world/LevelHandler";
-import MatterHandler from "./MatterHandler.js";
+import { MatterHandler } from "./MatterHandler.js";
 import { Player } from "./Player/Player";
-import Vec2 from "./Utilities/vec2.js";
-
-
-export const MOVE_DIST = 10;
-export const WORM_RADIUS = 20;
-export const MAX_LENGTH = 400;
-export const MOVE_SPEED = 150 / 1000; //px per second
-
 
 export default class Game {
     constructor() {

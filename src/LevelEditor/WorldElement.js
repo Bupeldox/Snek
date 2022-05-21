@@ -50,9 +50,6 @@ export class WorldElement {
         $(this.inspectorElement).on("change", "[name='isStatic']", () => {
             this.updateIsStatic(+$(this.inspectorElement).find("[name='isStatic']").is(":checked"));
         });
-        $(this.inspectorElement).on("click", ".delete", () => { 
-            this.destroy(); 
-        });
     }
     move(pos) {
         this.position = pos;

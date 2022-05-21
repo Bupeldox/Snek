@@ -31,10 +31,16 @@
 
             </div>
             <div id="fileControls" style="margin: 0px 25px;">
-                <button class="button" id="exportButton">Export</button>
-                <textarea style="vertical-align: top;  overflow-wrap: break-word;" rows="3" type="text" id="jsonOutput"
+                <div>
+                    <button class="button" id="exportButton">Export</button>
+                    <textarea style="vertical-align: top;  overflow-wrap: break-word;" rows="3" type="text" id="jsonOutput"
                     onClick="this.setSelectionRange(0, this.value.length)"></textarea>
-
+                </div>
+                <div>
+                    
+                <button class="button" id="togglePlay">Toggle Play</button>
+                <button class="button" id="movePlayerStart">Move Player Start</button>
+                </div>
             </div>
         </div>
         <div id="inspectorish">

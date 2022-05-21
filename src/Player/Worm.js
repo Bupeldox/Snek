@@ -1,7 +1,7 @@
 import { Colors } from "../Utilities/Colors.js";
 import SnekTongue from "./SnekTongue.js";
 import Vec2 from "../Utilities/vec2.js";
-import WormJoint from "./WormJoint";
+import WormJoint from "./WormJoint.js";
 
 export const maxAngle = 0.3;
 export const maxDeltaAngle = 0.05;
@@ -10,7 +10,7 @@ export const historyLength = 7; //frames of history ish
 const MaxAngularVelocity = 3;
 
 export default class Snek {
-    constructor(moveDist, maxLength, moveSpeed, width, matterHandler, resetFunc, startPos) {
+    constructor(moveDist, maxLength, moveSpeed, width, matterHandler, resetFunc) {
         this.askForReset = resetFunc;
         this.matterHandler = matterHandler;
         this.moveDist = moveDist;
@@ -75,6 +75,10 @@ export default class Snek {
         if (this.objects.length < this.partCount) {
             this.createWholeWorm(p);
         }
+        this.setStartAngles();
+    }
+
+    setStartAngles(){
         this.objects.forEach((obj,i) => {
             if(obj && obj.hasOwnProperty("myJoint")){
                 var joint = obj.myJoint;
@@ -82,7 +86,6 @@ export default class Snek {
             }
         });
     }
-
     move(p) {
         p = new Vec2(p);
         this.isMoving = true;
@@ -203,11 +206,13 @@ export default class Snek {
             const e = this.objects[i];
             this.matterHandler.remove(e);
         }
-        this.tongue.destroy();
-        this.tail.destroy();
+        this.tongue?.destroy();
+        this.tail?.destroy();
         this.matterHandler.remove(this.eye)
         this.objects = [];
         this.eye = undefined;
+
+        this.setStartAngles();
     }
 
 }
