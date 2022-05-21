@@ -225,8 +225,6 @@ class EditerPlayerHelper{
             startPos:new Vec2(200,200)
         };
         this.isPlaying = false;
-
-        this.play();
     }
     setStartPosition(p){
         this.snekSettings.startPos = p;
@@ -236,7 +234,6 @@ class EditerPlayerHelper{
         this.player.resetWormPos(this.snekSettings.startPos);
     }
     play(){
-        //this.player.Worm = this.tempSnekHolder;
         this.player.resetWormPos(this.snekSettings.startPos);
         this.isPlaying = true;
         this.update();
