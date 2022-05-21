@@ -24,10 +24,11 @@
             </div>
             <div id="templates">
                 <div class="inspectorItem Element">
-                    <button class="move button"> Move</button>
+                    <button class="move button">Move</button>
+                    <button class="delete button">Delete</button>
                     <input type="number" step="100" name="height" placeholder="height">
                     <input type="number" step="100" name="width" placeholder="width">
-                    <input type="range" min="0" max="6.3" step="0.1" name="rotation" placeholder="rotation">
+                    <input type="range" min="-3.141" max="3.141" step="0.393" name="rotation" placeholder="rotation">
                     <input type="checkbox" name="isStatic">
                 </div>
                 <div class="inspectorItem snek">
@@ -38,9 +39,9 @@
             </div>
         </div>
     </div>
-    <div id="fileControls">
+    <div id="fileControls" style="margin:50px;">
         <button class="button" id="exportButton">Export</button>
-        <input type="text" id="jsonOutput">
+        <input type="text" id="jsonOutput" onClick="this.setSelectionRange(0, this.value.length)">
 
         </div>
     </div>
