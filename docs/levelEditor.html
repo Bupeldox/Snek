@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,25 +8,52 @@
     <title>Snek level Editor</title>
     
     <link rel="stylesheet" href="./style.css">
+    <style>
+        canvas {
+            border: 1px dashed #000;
+        }
+        .inspectorItem{
+            border: 1px solid #0004;
+        }
+        .button{
+            padding:10px 15px;
+        }
+        input[type="number"]{
+            width:40px;
+        }
+    </style>
 </head>
-<body>
-    <div style="display: flex; flex-flow:row nowrap;">
-        <div id="canvasTarget" class="levelEditorCanvasTarget">
 
+<body style="background-color:#697740;">
+    <div style="display: flex; flex-flow:row nowrap;">
+        <div>
+            <div id="canvasTarget" class="levelEditorCanvasTarget" style="background-color:inherit;">
+
+            </div>
+            <div id="fileControls" style="margin: 0px 25px;">
+                <button class="button" id="exportButton">Export</button>
+                <textarea style="vertical-align: top;  overflow-wrap: break-word;" rows="3" type="text" id="jsonOutput"
+                    onClick="this.setSelectionRange(0, this.value.length)"></textarea>
+
+            </div>
         </div>
         <div id="inspectorish">
             <div class="createArea">
-                <button id="addElement">
-                    + Add
+                <button class="button addElement" data-shape="rect">
+                    + Add Rect
+                </button>
+                <button class="button addElement" data-shape="circle">
+                    + Add Circle
                 </button>
             </div>
             <div id="inspectorItems">
-               
+
             </div>
             <div id="templates">
                 <div class="inspectorItem Element">
                     <button class="move button">Move</button>
                     <button class="delete button">Delete</button>
+                    <button class="copy button">Copy & Move</button>
                     <input type="number" step="100" name="height" placeholder="height">
                     <input type="number" step="100" name="width" placeholder="width">
                     <input type="range" min="-3.141" max="3.141" step="0.393" name="rotation" placeholder="rotation">
@@ -38,13 +66,9 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div id="fileControls" style="margin:50px;">
-        <button class="button" id="exportButton">Export</button>
-        <input type="text" id="jsonOutput" onClick="this.setSelectionRange(0, this.value.length)">
 
-        </div>
     </div>
     <script src="./levelEditor.js"></script>
 </body>
+
 </html>

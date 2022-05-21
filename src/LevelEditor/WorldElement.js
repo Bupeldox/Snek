@@ -13,6 +13,7 @@ export class WorldElement {
         this.position = startPos;
         this.rotation = 0;
         this.isMoving = false;
+        this.selected = false;
         this.options = {
             isStatic: isStatic,
             render: {}
@@ -20,9 +21,6 @@ export class WorldElement {
 
         this.inspectorElement = $("#templates").find(".inspectorItem.Element").clone();
 
-        $(this.inspectorElement).find("[name='width']").val(this.rotation);
-        $(this.inspectorElement).find("[name='isStatic']").prop('checked', this.options.isStatic);
-        $(this.inspectorElement).on("click", ".delete", () => { this.destroy(); });
 
         this.updateColors();
 
@@ -35,10 +33,10 @@ export class WorldElement {
         $(this.inspectorElement).on("click", ".move", () => {
             this.select(true);
         });
-        $(this.inspectorElement).on("mouseenter", ".button", () => {
+        $(this.inspectorElement).on("mouseenter", () => {
             this.select();
         });
-        $(this.inspectorElement).on("mouseleave", ".button", () => {
+        $(this.inspectorElement).on("mouseleave", () => {
             if (!this.isMoving) {
                 this.deselect();
             }
@@ -52,6 +50,9 @@ export class WorldElement {
         $(this.inspectorElement).on("change", "[name='isStatic']", () => {
             this.updateIsStatic(+$(this.inspectorElement).find("[name='isStatic']").is(":checked"));
         });
+        $(this.inspectorElement).on("click", ".delete", () => { 
+            this.destroy(); 
+        });
     }
     move(pos) {
         this.position = pos;
@@ -63,8 +64,12 @@ export class WorldElement {
         }
     }
     rotate(angle) {
-        this.angle = angle;
-        this.matterHandler.rotate(this.body, angle);
+        this.rotation = angle;
+        if(!this.options.isStatic){
+            this.reCreateBody();
+        }else{
+            this.matterHandler.rotate(this.body, angle);
+        }
     }
     updateIsStatic(val) {
         this.options.isStatic = val;
@@ -94,11 +99,8 @@ export class WorldElement {
         if (cancelMove) {
             this.isMoving = false;
         }
-        if (this.options.hasOwnProperty("render") && this.options.render.hasOwnProperty("fillStyle")) {
-            this.body.render.fillStyle = this.options.render.fillStyle;
-        } else {
-            this.body.render.fillStyle = undefined;
-        }
+        this.body.render.fillStyle = this.options?.render?.fillStyle;
+        
     }
     getExportObject() {
         return {
@@ -115,7 +117,6 @@ export class WorldElement {
         this.position = new Vec2(data.pos.x, data.pos.y);
         this.rotation = data.rotation;
         this.options = data.options;
-        $(this.inspectorElement).find("[name='rotation']").val(this.rotation);
     }
     removeBody() {
         if (this.body) {
@@ -125,5 +126,10 @@ export class WorldElement {
     destroy() {
         $(this.inspectorElement).remove();
         this.removeBody();
+    }
+
+    updateInspector(){
+        $(this.inspectorElement).find("[name='rotation']").val(this.rotation);
+        $(this.inspectorElement).find("[name='isStatic']").prop('checked', this.options.isStatic);
     }
 }

@@ -1,4 +1,5 @@
-import $ from "jquery";import { WorldElement } from "../WorldElement.js";
+import $ from "jquery";
+import { WorldElement } from "../WorldElement.js";
 
 
 export class RectElem extends WorldElement {
@@ -7,8 +8,7 @@ export class RectElem extends WorldElement {
         this.shape = "rect";
         this.height = 100;
         this.width = 100;
-        $(this.inspectorElement).find("[name='height']").val(this.height);
-        $(this.inspectorElement).find("[name='width']").val(this.width);
+        this.updateInspector();
         this.reCreateBody();
     }
     reCreateBody() {
@@ -42,9 +42,12 @@ export class RectElem extends WorldElement {
         this.height = data.height;
         this.width = data.width;
         
+        this.updateInspector();
+        this.reCreateBody();
+    }
+    updateInspector(){
+        super.updateInspector();
         $(this.inspectorElement).find("[name='height']").val(this.height);
         $(this.inspectorElement).find("[name='width']").val(this.width);
-
-        this.reCreateBody();
     }
 }

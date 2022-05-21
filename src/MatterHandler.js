@@ -190,12 +190,20 @@ export class MatterWorldHandler extends MatterHandlerBase {
   
     createRect(x, y, width, height, options, rotation = 0) {
         var b = Bodies.rectangle(x, y, width, height, options);
+        
+        Composite.add(engine.world, b);
 
         if (rotation != 0) {
             Body.rotate(b, rotation);
         }
-
+        
+        return b;
+    }
+    createCircle(x,y,radius,options){
+        var b = Bodies.rectangle(x, y, radius, options);
+        
         Composite.add(engine.world, b);
+        
         return b;
     }
     createCollectable(x, y, options) {
@@ -236,9 +244,9 @@ export class LevelEditorMatterHandler extends MatterWorldHandler {
     createCircle(pos, radius, options, rotation = 0) {
         var b = Bodies.circle(pos.x, pos.y, radius, options);
 
-        if (rotation != 0) {
-            Body.rotate(b, rotation);
-        }
+        // if (rotation != 0) {
+        //     Body.rotate(b, rotation);
+        // }
 
         Composite.add(engine.world, b);
         return b;

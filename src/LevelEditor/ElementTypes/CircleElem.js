@@ -1,19 +1,19 @@
 import { WorldElement } from "../WorldElement.js";
+import $ from "jquery";
 
 
 export class CircleElem extends WorldElement {
     constructor(matterHandler, isStatic = true) {
-        super(matterHandler);
-        this.radius = 100;
-        
-        $(this.inspectorElement).find("[name='height']").val(this.height);
-        $(this.inspectorElement).find("[name='width']").val(-1);
+        super(matterHandler,isStatic);
+        this.radius = 20;
         this.shape = "circle";
+        
+        this.updateInspector();
         this.reCreateBody();
     }
     reCreateBody() {
         this.removeBody();
-        this.body = matterHandler.createCircle(
+        this.body = this.matterHandler.createCircle(
             this.position,
             this.radius,
             this.options,
@@ -32,11 +32,21 @@ export class CircleElem extends WorldElement {
         obj.shape = this.shape;
         return obj;
     }
+    rotate(){
+        //does nothing, its a circle
+    }
     setFromExportData(data) {
         super.setFromExportData(data);
         this.radius = data.radius;
         
-        $(this.inspectorElement).find("[name='height']").val(this.radius);
+        this.updateInspector();
         this.reCreateBody();
+    }
+    updateInspector(){
+        super.updateInspector();
+        $(this.inspectorElement).find("[name='height']").val(this.radius);
+        $(this.inspectorElement).find("[name='height']").attr("step",20);
+        $(this.inspectorElement).find("[name='width']").remove();
+        $(this.inspectorElement).find("[name='rotation']").remove();
     }
 }

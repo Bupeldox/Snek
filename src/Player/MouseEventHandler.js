@@ -69,8 +69,8 @@ export default class MouseDraggingHelper {
 
         var rect = this.element.getBoundingClientRect()
 
-        var oTop = rect.x;
-        var oLeft = rect.y;
+        var oTop = rect.y;
+        var oLeft = rect.x;
         
         x = e.pageX - oLeft;
         y = e.pageY - oTop;
