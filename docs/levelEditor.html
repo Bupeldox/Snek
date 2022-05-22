@@ -6,20 +6,23 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Snek level Editor</title>
-    
+
     <link rel="stylesheet" href="./style.css">
     <style>
         canvas {
             border: 1px dashed #000;
         }
-        .inspectorItem{
+        
+        .inspectorItem {
             border: 1px solid #0004;
         }
-        .button{
-            padding:10px 15px;
+        
+        .button {
+            padding: 10px 15px;
         }
-        input[type="number"]{
-            width:45px;
+        
+        input[type="number"] {
+            width: 45px;
         }
     </style>
 </head>
@@ -32,17 +35,16 @@
             </div>
             <div id="fileControls" style="margin: 0px 25px;">
                 <div>
-                    
+
                     <button class="button" id="togglePlay">Toggle Play</button>
                     <button class="button" id="movePlayerStart">Move Player Start</button>
                 </div>
                 <br>
                 <div>
                     <button class="button" id="exportButton">Export</button>
-                    <textarea style="vertical-align: top;  overflow-wrap: break-word;" rows="3" type="text" id="jsonOutput"
-                    onClick="this.setSelectionRange(0, this.value.length)"></textarea>
+                    <textarea style="vertical-align: top;  overflow-wrap: break-word;" rows="3" type="text" id="jsonOutput" onClick="this.setSelectionRange(0, this.value.length)"></textarea>
                 </div>
-               
+
             </div>
         </div>
         <div id="inspectorish">
@@ -77,12 +79,7 @@
 
     </div>
     <script src="./levelEditor.js"></script>
-    <script>
-        var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-        if(isSafari){
-            document.body.classList.add("safarihax");
-        }
-    </script>
+
 </body>
 
 </html>
