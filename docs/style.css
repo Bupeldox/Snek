@@ -39,6 +39,11 @@ body {
     color:#1d2011;
     font-family: 'Bevellier', sans-serif;
 }
+body.safarihax{
+    position: fixed;
+    height: 100%;
+    width: 100%;
+}
 
 button{
     background: #774044;
