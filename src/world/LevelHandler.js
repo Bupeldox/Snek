@@ -22,7 +22,8 @@ export default class LevelFactory {
         this.Levels = [
             (mwh, w, h, toChangeLevel) => new Level2(mwh,w,h, toChangeLevel,1), //Tutorial
             (mwh, w, h, toChangeLevel) => new BasicLevel(mwh,w,h, toChangeLevel,2,0), //another tutorial
-            (mwh, w, h, toChangeLevel) => new Level1(mwh,w,h, toChangeLevel,3), //First one i made
+            (mwh, w, h, toChangeLevel) => new BasicLevel(mwh,w,h, toChangeLevel,3,2), //ball pit
+            (mwh, w, h, toChangeLevel) => new Level1(mwh,w,h, toChangeLevel,4), //First one i made
             (mwh, w, h, toChangeLevel) => new BasicLevel(mwh,w,h, toChangeLevel,0,1), //tree/impossible
         ];
     }
