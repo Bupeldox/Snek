@@ -19,7 +19,7 @@
             padding:10px 15px;
         }
         input[type="number"]{
-            width:40px;
+            width:45px;
         }
     </style>
 </head>
@@ -32,15 +32,17 @@
             </div>
             <div id="fileControls" style="margin: 0px 25px;">
                 <div>
+                    
+                    <button class="button" id="togglePlay">Toggle Play</button>
+                    <button class="button" id="movePlayerStart">Move Player Start</button>
+                </div>
+                <br>
+                <div>
                     <button class="button" id="exportButton">Export</button>
                     <textarea style="vertical-align: top;  overflow-wrap: break-word;" rows="3" type="text" id="jsonOutput"
                     onClick="this.setSelectionRange(0, this.value.length)"></textarea>
                 </div>
-                <div>
-                    
-                <button class="button" id="togglePlay">Toggle Play</button>
-                <button class="button" id="movePlayerStart">Move Player Start</button>
-                </div>
+               
             </div>
         </div>
         <div id="inspectorish">

@@ -1,13 +1,15 @@
 import { WorldElement } from "../WorldElement.js";
 import $ from "jquery";
 
+const shapeName = "circle";
 
 export class CircleElem extends WorldElement {
-    constructor(matterHandler, isStatic = true) {
-        super(matterHandler,isStatic);
+    static shape = shapeName;
+    constructor(matterHandler) {
+        super(matterHandler);
         this.radius = 20;
-        this.shape = "circle";
-        
+        this.shape = shapeName;
+
         this.updateInspector();
         this.reCreateBody();
     }
@@ -26,14 +28,14 @@ export class CircleElem extends WorldElement {
 
         this.reCreateBody();
     }
+    rotate(){
+        //does nothing, its a circle
+    }
     getExportObject() {
         var obj = super.getExportObject();
         obj.radius = this.radius;
         obj.shape = this.shape;
         return obj;
-    }
-    rotate(){
-        //does nothing, its a circle
     }
     setFromExportData(data) {
         super.setFromExportData(data);

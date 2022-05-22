@@ -5,7 +5,7 @@ export default class Game {
     constructor() {
         this.MatterHandler = new MatterHandler();
 
-        this.loadNewLevel(1);
+        this.loadNewLevel(0);
         this.running = true;
         
         this.update();

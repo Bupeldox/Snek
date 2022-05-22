@@ -115,12 +115,8 @@ export class LevelEditor {
         
     }
     addElement(type,push = true) {
-        var newelem;
-        if(type == "rect"){
-            newelem = this.ElementFactory.createRect();
-        }else if(type=="circle"){
-            newelem = this.ElementFactory.createCircle();
-        }
+        var newelem = this.ElementFactory.createFromShape(type);
+        
         if(push){
             this.elements.push(newelem);
         }
@@ -145,7 +141,10 @@ export class LevelEditor {
     }
 
     export() {
-        var outputObj = {};
+        var outputObj = {
+            elementData:[],
+            snekSettings:{}
+        };
         var elementData = [];
         for (let i = 0; i < this.elements.length; i++) {
             const element = this.elements[i];
@@ -154,7 +153,7 @@ export class LevelEditor {
 
 
         outputObj.snekSettings = this.player.snekSettings;
-        outputObj.elemData = elementData;
+        outputObj.elementData = elementData;
 
         var json = JSON.stringify(outputObj);
         $("#jsonOutput").val(json);
@@ -174,15 +173,15 @@ export class LevelEditor {
         this.player.reset();
 
         this.elements=[];
+        
         //Elements
-        var elemsObj = levelData.elemData;
+        var elemsObj = levelData.elementData;
         for (let i = 0; i < elemsObj.length; i++) {
             const elemData = elemsObj[i];
             var element = this.addElement(elemData.shape);
             element.setFromExportData(elemData);
         }
     }
-
 }
 
 
@@ -222,7 +221,7 @@ class EditerPlayerHelper{
         this.player = new Player(mh);
         this.tempSnekHolder = this.player.Worm;
         this.snekSettings = {
-            startPos:new Vec2(200,200)
+            startPos:new Vec2(200,500)
         };
         this.isPlaying = false;
     }

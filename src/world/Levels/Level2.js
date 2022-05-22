@@ -33,7 +33,7 @@ export class Level2 extends LevelBase {
         this.goals[0] = (this.MatterWorldHandler.createCollectable(w-100, h - 200));
        
         this.MatterWorldHandler.registerPlayerCollisionEvent(this.goals[0],()=>{
-            this.changeLevelFunc(0);
+            this.changeLevelFunc(this.targetLevel);
         });
 
     }

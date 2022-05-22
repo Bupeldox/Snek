@@ -175,6 +175,7 @@ export class MatterHandler extends MatterHandlerBase {
     LoadLevel(levelNumber) {
         this.unloadLevel();
         // add all of the bodies to the world
+        
         var worldHandler = new MatterWorldHandler();
         var level = levelFactory.getLevel(levelNumber)(worldHandler, width, height, (i) => this.LoadLevel(i));
         level.createBodies();
@@ -201,12 +202,14 @@ export class MatterWorldHandler extends MatterHandler {
         
         return b;
     }
-    createCircle(x,y,radius,options){
-        var b = Bodies.rectangle(x, y, radius, options);
-        
-        Composite.add(engine.world, b);
+    createCircle(pos, radius, options, rotation = 0) {
+        var b = Bodies.circle(pos.x, pos.y, radius, options);
 
-        
+        // if (rotation != 0) {
+        //     Body.rotate(b, rotation);
+        // }
+
+        Composite.add(engine.world, b);
         return b;
     }
     createCollectable(x, y, options) {
@@ -238,6 +241,9 @@ export class MatterWorldHandler extends MatterHandler {
             }
                
         });
+    }
+    addBody(bod){
+        Composite.add(engine.world, bod);
     }
 }
 

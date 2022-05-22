@@ -6,10 +6,17 @@ export class ElementFactory {
     constructor(matterHandler) {
         this.matterHandler = matterHandler;
     }
-    createRect(isStatic) {
-        return new RectElem(this.matterHandler, isStatic);
+    createFromShape(shape){
+        if(shape == RectElem.shape){
+            return this.createRect();
+        }else if(shape == CircleElem.shape){
+            return this.createCircle();
+        }
     }
-    createCircle(isStatic) {
-        return new CircleElem(this.matterHandler, isStatic);
+    createRect() {
+        return new RectElem(this.matterHandler);
+    }
+    createCircle() {
+        return new CircleElem(this.matterHandler);
     }
 }

@@ -2,12 +2,17 @@ import $ from "jquery";
 import { WorldElement } from "../WorldElement.js";
 
 
+const shapeName = "rect";
 export class RectElem extends WorldElement {
+    static shape = shapeName;
+
     constructor(matterHandler, isStatic = true) {
-        super(matterHandler, isStatic);
-        this.shape = "rect";
+        super(matterHandler);
+        this.shape = shapeName;
+
         this.height = 100;
         this.width = 100;
+
         this.updateInspector();
         this.reCreateBody();
     }

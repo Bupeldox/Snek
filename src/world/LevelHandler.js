@@ -1,6 +1,6 @@
 import { Level2 } from "./Levels/Level2";
 import { Level1 } from "./Levels/Level1";
-
+import { BasicLevel } from "./levels/BasicLevel";
 
 
 
@@ -18,9 +18,12 @@ export class Collectable {
 
 export default class LevelFactory {
     constructor(toChangeLevel) {
+        // basic level, mwh,w,h,func,nextLevelindex(in this list),source
         this.Levels = [
+            (mwh, w, h, toChangeLevel) => new BasicLevel(mwh,w,h, toChangeLevel,1,1),
+            (mwh, w, h, toChangeLevel) => new Level2(mwh,w,h, toChangeLevel,2),
+            (mwh, w, h, toChangeLevel) => new BasicLevel(mwh,w,h, toChangeLevel,3,0),
             (mwh, w, h, toChangeLevel) => new Level1(mwh,w,h, toChangeLevel),
-            (mwh, w, h, toChangeLevel) => new Level2(mwh,w,h, toChangeLevel)
         ];
     }
     getLevel(index) {

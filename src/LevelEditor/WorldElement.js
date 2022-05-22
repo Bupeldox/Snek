@@ -15,7 +15,7 @@ export class WorldElement {
         this.isMoving = false;
         this.selected = false;
         this.options = {
-            isStatic: isStatic,
+            isStatic: true,
             render: {}
         };
 
