@@ -58,7 +58,8 @@ export class Level1 extends LevelBase {
     setupEvents(){
           
         this.MatterWorldHandler.registerPlayerCollisionEvent(this.goals[0],()=>{
-            this.goals[0].render.fillStyle = Colors.Obsticals;
+            //this.goals[0].render.fillStyle = Colors.Obsticals;
+            this.changeLevelFunc(this.targetLevel);
         });
 
     }
