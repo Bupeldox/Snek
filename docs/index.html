@@ -25,6 +25,22 @@
     <div id="canvasTarget" class="canvasHeight"></div>
 
     <script src="./bundle.js"></script>
+    <script>
+        function doSafariHax(){
+            document.body.parentElement.style.position = "fixed";
+            document.body.parentElement.style.height = "100%";
+            document.body.parentElement.style.width = "100%";
+            document.body.style.position = "fixed";
+            document.body.style.height = "100%";
+            document.body.style.width = "100%";
+            document.getElementById("fullscreen").textContent="ios lol";
+        }
+        var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+        if(isSafari){
+            doSafariHax()
+        }
+        console.log("what");
+    </script>
 </body>
 
 </html>
