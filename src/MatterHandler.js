@@ -4,6 +4,33 @@ import LevelFactory from "./world/LevelHandler";
 
 import Vec2 from "./Utilities/vec2";
 
+class CustomRunner {
+    constructor(runner,engine){
+        this.fps = 60;
+        this.runner = runner;
+        this.engine = engine;
+        this.running = false;
+    }
+    start(){
+        this.running = true;
+        this.step();
+    }
+    stop(){
+        this.running = false;
+    }
+    step(){
+        
+        var frameTime = 1000/this.fps;
+        Runner.tick(this.runner, this.engine, frameTime);
+
+        if(this.running){
+            setTimeout(()=>{
+                this.step()
+            },frameTime);
+        }
+    }   
+}
+
 
 export var Engine = Matter.Engine,
     Render = Matter.Render,
@@ -14,6 +41,7 @@ export var Engine = Matter.Engine,
     Constraint = Matter.Constraint,
     Events = Matter.Events,
     levelFactory = new LevelFactory()
+
 
 
 
@@ -40,15 +68,29 @@ var render = Render.create({
 // run the renderer
 Render.run(render);
 
+
+var fpsToUse = undefined;
+var queryParams = new URLSearchParams(window.location.search);
+if(queryParams.has("fps")){
+    fpsToUse = +queryParams.get("fps");
+}
+
+
 // create runner
 var runner = Runner.create({
     //isFixed: true,
+    // fps:fpsToUse
 });
-runner.minDelta = 1;
-runner.maxDelta = 100;
+// runner.minDelta = 1;
+// runner.maxDelta = 100;
 
-// run the engine
-Runner.run(runner, engine);
+
+
+// // run the engine
+// Runner.run(runner, engine);
+
+var customRunner = new CustomRunner(runner,engine);
+customRunner.start();
 
 
 
@@ -70,6 +112,9 @@ class MatterHandlerBase{
             }
             Composite.remove(engine.world, bod, true);
         }
+    }
+    setFps(framerate){
+        runner.fps = framerate;
     }
 }
 

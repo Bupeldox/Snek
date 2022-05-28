@@ -119,3 +119,43 @@ export class ButtonEventHandler {
     }
 
 }
+
+export class ControllerHandler {
+    constructor(){
+        window.addEventListener("gamepadconnected", (e)=> {
+            this.onGamepadConnect(e);
+        });
+        this.gamepads = [];
+    }
+    onGamepadDisonnect(e){
+
+    }
+    onGamepadConnect(e){
+        console.log("Gamepad connected at index %d: %s. %d buttons, %d axes.",
+        e.gamepad.index, e.gamepad.id,
+        e.gamepad.buttons.length, e.gamepad.axes.length);
+        if(!window.gamepads){
+            window.gamepads = [];
+        }
+        window.gamepads[e.gamepad.index] = e.gamepad;
+    }
+    isConnected(index){
+        return navigator.getGamepads()[index] != null;
+    }
+    getSticks(index){
+        var gp = navigator.getGamepads()[index];
+        var x1 = gp.axes[0];
+        var y1 = gp.axes[1];
+        var s1 = new Vec2(x1,y1);
+
+        var x2 = gp.axes[2];
+        var y2 = gp.axes[3];
+        var s2 = new Vec2(x2,y2);
+
+        return [s1,s2];
+    }
+    getTriggers(index){
+        var gp = navigator.getGamepads()[index];
+        return [gp.buttons[6].value,gp.buttons[7].value];
+    }
+}
