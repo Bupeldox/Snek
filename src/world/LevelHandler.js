@@ -24,7 +24,8 @@ export default class LevelFactory {
             (mwh, w, h, toChangeLevel) => new BasicLevel(mwh,w,h, toChangeLevel,2,0), //another tutorial
             (mwh, w, h, toChangeLevel) => new BasicLevel(mwh,w,h, toChangeLevel,3,2), //ball pit
             (mwh, w, h, toChangeLevel) => new Level1(mwh,w,h, toChangeLevel,4), //First one i made
-            (mwh, w, h, toChangeLevel) => new BasicLevel(mwh,w,h, toChangeLevel,0,1), //tree/impossible
+            (mwh, w, h, toChangeLevel) => new BasicLevel(mwh,w,h, toChangeLevel,5,1), //tree?
+            (mwh, w, h, toChangeLevel) => new BasicLevel(mwh,w,h, toChangeLevel,0,3), //bush gap
         ];
     }
     getLevel(index) {
