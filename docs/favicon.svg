@@ -9,6 +9,9 @@
    id="svg5"
    inkscape:version="1.2 (dc2aedaf03, 2022-05-15)"
    sodipodi:docname="favicon.svg"
+   inkscape:export-filename="favicon.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -25,17 +28,29 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="px"
      showgrid="false"
-     inkscape:zoom="0.39746094"
-     inkscape:cx="290.59459"
-     inkscape:cy="578.67322"
+     inkscape:zoom="0.56209465"
+     inkscape:cx="240.17307"
+     inkscape:cy="491.02051"
      inkscape:window-width="1920"
      inkscape:window-height="1017"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
-     inkscape:current-layer="layer1" />
+     inkscape:current-layer="layer2" />
   <defs
      id="defs2">
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient12964">
+      <stop
+         style="stop-color:#574730;stop-opacity:1;"
+         offset="0"
+         id="stop14424" />
+      <stop
+         style="stop-color:#766040;stop-opacity:1;"
+         offset="0.30666664"
+         id="stop12960" />
+    </linearGradient>
     <linearGradient
        id="linearGradient12848"
        inkscape:swatch="solid">
@@ -104,14 +119,13 @@
        y2="256.00024" />
     <linearGradient
        inkscape:collect="always"
-       xlink:href="#snek"
-       id="linearGradient12916"
-       gradientUnits="userSpaceOnUse"
-       x1="-0.49999949"
-       y1="256.00024"
-       x2="448.25006"
-       y2="256.00024"
-       gradientTransform="matrix(0.99989169,0,0,0.9998917,0,0.00665193)" />
+       xlink:href="#linearGradient12964"
+       id="linearGradient14422"
+       x1="0"
+       y1="255.97868"
+       x2="447.70154"
+       y2="255.97868"
+       gradientUnits="userSpaceOnUse" />
   </defs>
   <g
      inkscape:label="guides"
@@ -159,7 +173,7 @@
        x="0"
        y="0" />
     <path
-       style="fill:url(#linearGradient12916);fill-opacity:1;stroke:none;stroke-width:0.999891px;stroke-opacity:0.487047;stop-color:#000000"
+       style="fill:url(#linearGradient14422);fill-opacity:1;stroke:none;stroke-width:0.999891px;stroke-opacity:0.487047;stop-color:#000000"
        d="m 0,61.421135 255.7223,8e-6 c 256.22225,-0.499946 255.7223,388.615627 0,388.615627 L 0,450.5367 V 61.421135"
        id="path5503"
        sodipodi:nodetypes="ccccc" />
