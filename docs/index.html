@@ -9,6 +9,7 @@
     <title>Snek game</title>
     <link href="https://api.fontshare.com/css?f[]=bevellier@400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./style.css">
+    <link rel="icon shortcut" href="/favicon.svg" type="image/svg+xml">
 </head>
 
 <body>
@@ -26,17 +27,17 @@
 
     <script src="./bundle.js"></script>
     <script>
-        function doSafariHax(){
+        function doSafariHax() {
             document.body.parentElement.style.position = "fixed";
             document.body.parentElement.style.height = "100%";
             document.body.parentElement.style.width = "100%";
             document.body.style.position = "fixed";
             document.body.style.height = "100%";
             document.body.style.width = "100%";
-            document.getElementById("fullscreen").textContent="ios lol";
+            document.getElementById("fullscreen").textContent = "ios lol";
         }
         var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-        if(isSafari){
+        if (isSafari) {
             doSafariHax()
         }
         console.log("what");
