@@ -202,6 +202,9 @@ export default class Snek {
         this.askForReset();
     }
     removeWholeWorm() {
+        if(!this.eye){
+            return;
+        }
         for (let i = 0; i < this.objects.length; i++) {
             const e = this.objects[i];
             this.matterHandler.remove(e);

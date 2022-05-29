@@ -12,48 +12,80 @@ export class Player {
         this.clickHandler = new JQEventHandler(document.getElementById("thing"), "click");
         this.reverseControlHandler = new ButtonEventHandler(document.body, "s");
         this.forwardsControlHandler = new ButtonEventHandler(document.body, "w");
+        this.resetControlHandler = new ButtonEventHandler(document.body,"r");
         this.controllerHandler = new ControllerHandler();
         
 
         this.clickHandler.register(() => { this.Worm.onPhysicsBreak(); });
-        this.Worm = new Worm(MOVE_DIST, MAX_LENGTH, MOVE_SPEED, WORM_RADIUS, this.MatterHandler, () => { this.resetWormPos(); });
+        this.Worm = new Worm(MOVE_DIST, MAX_LENGTH, MOVE_SPEED, WORM_RADIUS, this.MatterHandler, () => { this.resetWormPos(this.Worm); });
+
         
     }
 
-    resetWormPos(p) {
-        this.Worm.removeWholeWorm();
-        if (!p) {
-            p = new Vec2(300, 730);
+    resetWormPos(worm,p) {
+
+        if(!worm){
+            this.resetWormPos(this.Worm,p);
+            if(this.Worm2){
+                this.resetWormPos(this.Worm2,p);
+            }
         }
-        this.Worm.create(p);
+        else{
+
+            worm.removeWholeWorm();
+            if (!p) {
+                if(this.startPos){
+                    p = this.startPos;
+                }else{
+                    p = new Vec2(300, 730);
+                }
+                    
+            }
+            worm.create(p);
+        }
     }
 
     update() {
 
         if(this.controllerHandler.isConnected(0)){
+            if(!this.Worm2){
+                this.Worm2 = new Worm(MOVE_DIST, MAX_LENGTH, MOVE_SPEED, WORM_RADIUS, this.MatterHandler, () => { this.resetWormPos(this.Worm2); });
+                this.resetWormPos(this.Worm2);
+            }
             var sticks = this.controllerHandler.getSticks(0);
-            var triggers = this.controllerHandler.getTriggers(0);
-            var moveStick = sticks[1];
+
             if(sticks[1].magnitude()>0.5){
-                var notMousePos = new Vec2(this.Worm.objects[this.Worm.objects.length-1].position).add(sticks[1].times(20));
-                this.Worm.move(notMousePos);
+                var notMousePos = new Vec2(this.Worm2.objects[this.Worm2.objects.length-1].position).add(sticks[1].times(20));
+                this.Worm2.move(notMousePos);
             }else if(sticks[0].magnitude()>0.5){
-                var notMousePos = new Vec2(this.Worm.objects[0].position).add(sticks[0].times(20));
-                this.Worm.reverse(notMousePos);
+                var notMousePos = new Vec2(this.Worm2.objects[0].position).add(sticks[0].times(20));
+                this.Worm2.reverse(notMousePos);
             }
         }else{
-            if (this.MouseDraggingHelper.isDragging || this.forwardsControlHandler.isPressed) {
-                this.Worm.move(this.MouseDraggingHelper.pos);
-            } else if (this.reverseControlHandler.isPressed) {
-    
-                this.Worm.reverse(this.MouseDraggingHelper.pos);
+            if(this.Worm2){
+                this.Worm2.removeWholeWorm();
             }
         }
 
+        if (this.MouseDraggingHelper.isDragging || this.forwardsControlHandler.isPressed) {
+            this.Worm.move(this.MouseDraggingHelper.pos);
+        } else if (this.reverseControlHandler.isPressed) {
+
+            this.Worm.reverse(this.MouseDraggingHelper.pos);
+        }
+    
+        if(this.resetControlHandler.isPressed){
+            this.resetWormPos(this.Worm);
+            if(this.Worm2){
+                this.resetWormPos(this.Worm2);
+            }
+        }
       
         this.Worm.update();
+        this.Worm2?.update();
     }
     destroy() {
         this.Worm.removeWholeWorm();
+        this.Worm2?.removeWholeWorm();
     }
 }

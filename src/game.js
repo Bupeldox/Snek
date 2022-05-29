@@ -21,7 +21,7 @@ export default class Game {
         this.level = this.MatterHandler.LoadLevel(index);
         this.level.changeLevelFunc = (i) => this.loadNewLevel(i);
 
-        this.player.resetWormPos(this.level.getSnekStartPos());
+        this.player.resetWormPos(undefined,this.level.getSnekStartPos());
 
     }
     update() {

@@ -69,17 +69,10 @@ var render = Render.create({
 Render.run(render);
 
 
-var fpsToUse = undefined;
-var queryParams = new URLSearchParams(window.location.search);
-if(queryParams.has("fps")){
-    fpsToUse = +queryParams.get("fps");
-}
-
 
 // create runner
 var runner = Runner.create({
-    //isFixed: true,
-    // fps:fpsToUse
+    isFixed: true,
 });
 // runner.minDelta = 1;
 // runner.maxDelta = 100;
