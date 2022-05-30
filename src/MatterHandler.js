@@ -4,33 +4,6 @@ import LevelFactory from "./world/LevelHandler";
 
 import Vec2 from "./Utilities/vec2";
 
-class CustomRunner {
-    constructor(runner,engine){
-        this.fps = 60;
-        this.runner = runner;
-        this.engine = engine;
-        this.running = false;
-    }
-    start(){
-        this.running = true;
-        this.step();
-    }
-    stop(){
-        this.running = false;
-    }
-    step(){
-        
-        var frameTime = 1000/this.fps;
-        Runner.tick(this.runner, this.engine, frameTime);
-
-        if(this.running){
-            setTimeout(()=>{
-                this.step()
-            },frameTime);
-        }
-    }   
-}
-
 
 export var Engine = Matter.Engine,
     Render = Matter.Render,
@@ -74,17 +47,6 @@ Render.run(render);
 var runner = Runner.create({
     isFixed: true,
 });
-// runner.minDelta = 1;
-// runner.maxDelta = 100;
-
-
-
-// // run the engine
-// Runner.run(runner, engine);
-
-var customRunner = new CustomRunner(runner,engine);
-customRunner.start();
-
 
 
 const WORM_CATEGORY = 0b0010;
@@ -106,8 +68,8 @@ class MatterHandlerBase{
             Composite.remove(engine.world, bod, true);
         }
     }
-    setFps(framerate){
-        runner.fps = framerate;
+    DoTick(frameTime){
+        Runner.tick(runner, engine, frameTime);
     }
 }
 
