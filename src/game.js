@@ -6,9 +6,9 @@ export default class Game {
         this.MatterHandler = new MatterHandler();
         this.updateLoop = new CustomRunner();
         this.updateLoop.registerOnUpdate((t)=>{this.update(t);});
-        
         this.loadNewLevel(0);        
-        this.update();
+        
+        this.updateLoop.start();
     }
     loadNewLevel(index) {
         this.MatterHandler.unloadLevel();
