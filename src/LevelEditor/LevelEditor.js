@@ -5,6 +5,7 @@ import { ElementFactory } from "./ElementFactory.js";
 import MouseDraggingHelper from "../Player/MouseEventHandler.js";
 import { Player } from "../Player/Player.js";
 import { Colors } from "../Utilities/Colors.js";
+import { CustomRunner } from "../Utilities/CustomRunner.js";
 
 export class LevelEditor {
     constructor() {
@@ -16,11 +17,22 @@ export class LevelEditor {
         this.events();
         this.elements.push(...this.Prefabs.walls(this.matterHandler.height,this.matterHandler.width));
 
+        
         this.player = new EditerPlayerHelper(this.matterHandler);
+        this.player.play();
+        this.updateLoop = new CustomRunner();
+        
 
         var goal = this.addElement("circle");
         goal.options.render.fillStyle = Colors.Collectable;
         goal.reCreateBody();
+
+        this.updateLoop.registerOnUpdate((t)=>{
+            this.matterHandler.DoTick(t);
+            this.player.update();
+        });
+
+        this.updateLoop.start();
     }
 
     events() {
@@ -49,9 +61,11 @@ export class LevelEditor {
         $("#togglePlay").on("mousedown", () => {
             if(this.player.isPlaying){
                 this.player.stopPlaying();
+                this.updateLoop.stop();
             }else{
                 this.player.play();
                 this.reCreateLevelAndPlay();
+                this.updateLoop.start();
             }
         });
         $("#jsonOutput").on("input", (e) => {
@@ -243,10 +257,6 @@ class EditerPlayerHelper{
     }
     update() {
         this.player.update();
-
-        if (this.isPlaying) {
-            requestAnimationFrame(() => { this.update() });
-        }
     }
 
 }

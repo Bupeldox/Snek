@@ -41,8 +41,8 @@ export class Player {
             }
         }
         else{
-            worm.removeWholeWorm();
-            worm.create(p);
+            this.Worm.removeWholeWorm();
+            this.Worm.create(p);
         }
     }
 
