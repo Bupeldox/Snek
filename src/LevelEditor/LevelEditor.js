@@ -20,18 +20,19 @@ export class LevelEditor {
         
         this.player = new EditerPlayerHelper(this.matterHandler);
         this.player.play();
-        this.updateLoop = new CustomRunner();
-        
 
+        
+        
         var goal = this.addElement("circle");
         goal.options.render.fillStyle = Colors.Collectable;
         goal.reCreateBody();
+        
 
+        this.updateLoop = new CustomRunner();
         this.updateLoop.registerOnUpdate((t)=>{
             this.matterHandler.DoTick(t);
             this.player.update();
         });
-
         this.updateLoop.start();
     }
 
