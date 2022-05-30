@@ -23,6 +23,16 @@ export class Player {
     }
 
     resetWormPos(worm,p) {
+        if (!p) {
+            if(this.startPos){
+                p = this.startPos;
+            }else{
+                p = new Vec2(300, 730);
+            }
+                
+        }else{
+            this.startPos = p;
+        }
 
         if(!worm){
             this.resetWormPos(this.Worm,p);
@@ -31,16 +41,7 @@ export class Player {
             }
         }
         else{
-
             worm.removeWholeWorm();
-            if (!p) {
-                if(this.startPos){
-                    p = this.startPos;
-                }else{
-                    p = new Vec2(300, 730);
-                }
-                    
-            }
             worm.create(p);
         }
     }

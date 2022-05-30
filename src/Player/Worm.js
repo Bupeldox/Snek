@@ -2,6 +2,7 @@ import { Colors } from "../Utilities/Colors.js";
 import SnekTongue from "./SnekTongue.js";
 import Vec2 from "../Utilities/vec2.js";
 import WormJoint from "./WormJoint.js";
+import Color from "color";
 
 export const maxAngle = 0.3;
 export const maxDeltaAngle = 0.05;
@@ -23,6 +24,7 @@ export default class Snek {
         this.lastPlaced = Date.now();
         this.isMoving = false;
         this.isReversing = false;
+        this.SingularityCounter = 2;
     }
     addSegment(p, width) {
 
@@ -197,6 +199,11 @@ export default class Snek {
         this.isReversing = false;
     }
     onPhysicsBreak() {
+        this.SingularityCounter --;
+
+        if(this.SingularityCounter<=0){
+            Colors.SnekGradient = Colors.SnekGradientB;
+        }
         this.removeWholeWorm();
         this.objects = [];
         this.askForReset();
