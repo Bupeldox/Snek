@@ -4,7 +4,9 @@ import { Player } from "./Player/Player";
 export default class Game {
     constructor() {
         this.MatterHandler = new MatterHandler();
-
+        this.updateLoop = new CustomRunner();
+        this.updateLoop.registerOnUpdate((t)=>{this.update(t);});
+        
         this.loadNewLevel(0);
         this.running = true;
         
@@ -24,11 +26,42 @@ export default class Game {
         this.player.resetWormPos(undefined,this.level.getSnekStartPos());
 
     }
-    update() {
+    update(t) {
         this.player.update();
+    
+    }
+}
+
+
+
+class CustomRunner {
+    constructor() {
+        this.running = false;
+        this.fps = 60;
+
+    }
+    start() {
+        this.running = true;
+        this.step();
+    }
+    stop() {
+        this.running = false;
+    }
+    registerOnUpdate(func) {
+        this.onUpdate = func;
+    }
+    getFrameTime() {
+        return 1000 / this.fps;
+    }
+    step() {
+
+        var frameTime = this.getFrameTime();
+        this.onUpdate(frameTime);
 
         if (this.running) {
-            requestAnimationFrame(() => { this.update() });
+            setTimeout(() => {
+                this.step()
+            }, frameTime);
         }
     }
 }
