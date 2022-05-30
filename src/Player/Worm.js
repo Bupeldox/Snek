@@ -24,7 +24,7 @@ export default class Snek {
         this.lastPlaced = Date.now();
         this.isMoving = false;
         this.isReversing = false;
-        this.SingularityCounter = 2;
+        this.SingularityCounter = 20;
     }
     addSegment(p, width) {
 
