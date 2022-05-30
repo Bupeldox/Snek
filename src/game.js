@@ -7,9 +7,7 @@ export default class Game {
         this.updateLoop = new CustomRunner();
         this.updateLoop.registerOnUpdate((t)=>{this.update(t);});
         
-        this.loadNewLevel(0);
-        this.running = true;
-        
+        this.loadNewLevel(0);        
         this.update();
     }
     loadNewLevel(index) {
@@ -28,7 +26,7 @@ export default class Game {
     }
     update(t) {
         this.player.update();
-    
+        this.MatterHandler.DoTick(t);
     }
 }
 
