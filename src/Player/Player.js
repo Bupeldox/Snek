@@ -50,7 +50,8 @@ export class Player {
 
         if(this.controllerHandler.isConnected(0)){
             if(!this.Worm2){
-                this.Worm2 = new Worm(MOVE_DIST, MAX_LENGTH, MOVE_SPEED, WORM_RADIUS, this.MatterHandler, () => { this.resetWormPos(this.Worm2); });
+                document.getElementById("coopCollisionBox")?.classList.remove("hidden");
+                this.Worm2 = new Worm(MOVE_DIST, MAX_LENGTH, MOVE_SPEED, WORM_RADIUS, this.MatterHandler, () => { this.resetWormPos(this.Worm2); },true);
                 this.resetWormPos(this.Worm2);
             }
             var sticks = this.controllerHandler.getSticks(0);

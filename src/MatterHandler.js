@@ -50,6 +50,7 @@ var runner = Runner.create({
 
 
 const WORM_CATEGORY = 0b0010;
+const WORM2_CATEGORY = 0b0100;
 const DEFAULT_CATEGORY = 0b0001;
 
 class MatterHandlerBase{
@@ -77,37 +78,44 @@ class MatterHandlerBase{
 export class MatterHandler extends MatterHandlerBase {
     constructor(){
         super();
-            
         if(document.getElementById("fullscreen")){
             document.getElementById("fullscreen").addEventListener("click",()=>{
                 render.element.requestFullscreen();
             });
         }
-
-
-
     }
-    addSnekSegment(p, width) {
+
+    setSnekCollisionStuff(body,isSnek2){
+        var enableCoopCollision = document.getElementById("coopCollision")?.checked??false;
+        if(enableCoopCollision){
+            body.collisionFilter.category = isSnek2?WORM2_CATEGORY:WORM_CATEGORY;
+            body.collisionFilter.mask = DEFAULT_CATEGORY | ((!isSnek2)?WORM2_CATEGORY:WORM_CATEGORY);
+        }else{
+            body.collisionFilter.category = WORM_CATEGORY;
+            body.collisionFilter.mask = DEFAULT_CATEGORY;
+        }
+    }
+
+    addSnekSegment(p, width,isSnek2) {
         var n = Bodies.circle(p.x, p.y, width, 20);
         n.mySize = width;
         Composite.add(engine.world, n);
-        n.collisionFilter.category = WORM_CATEGORY;
-        n.collisionFilter.mask = DEFAULT_CATEGORY;
+        this.setSnekCollisionStuff(n,isSnek2);
+        
         return n;
     }
-    addEye(width, head) {
+
+    addEye(width, head,isSnek2) {
         var p = head.position;
         var n = Bodies.circle(p.x, p.y, width, 20);
         n.mySize = width;
-        n.collisionFilter.category = WORM_CATEGORY;
-        n.collisionFilter.mask = DEFAULT_CATEGORY;
+
+        this.setSnekCollisionStuff(n,isSnek2);
         Composite.add(engine.world, n);
-        //Body.setParts(head,[n],true);
 
         var c = Constraint.create({
             bodyA: head,
             bodyB: n,
-            //length:0,
             render: {
                 strokeStyle: "#0000"
             }
@@ -115,19 +123,17 @@ export class MatterHandler extends MatterHandlerBase {
         Composite.add(engine.world, c);
         return n;
     }
-    joinObjects(parent, child) {
 
+    joinObjects(parent, child) {
         var veca = new Vec2(0, parent.mySize);
         var vecb = new Vec2(0, child.mySize);
         var constriantCount = 3;
-
 
         if (parent.myConstraints) {
 
         } else {
             parent.myConstraints = [];
         }
-
 
         for (var i = 0; i < constriantCount; i++) {
 
@@ -144,12 +150,12 @@ export class MatterHandler extends MatterHandlerBase {
             veca = veca.rotate(dangle);
             vecb = vecb.rotate(-dangle);
         }
-
     }
     
     applyForce(bod, from, vec) {
         Body.applyForce(bod, Matter.Vector.create(from.x, from.y), Matter.Vector.create(vec.x, vec.y));
     }
+
     createJoint(a, b, pa, pb, stiffness) {
         var c = Constraint.create({
             bodyA: a,
@@ -205,10 +211,6 @@ export class MatterWorldHandler extends MatterHandler {
     createCircle(pos, radius, options, rotation = 0) {
         var b = Bodies.circle(pos.x, pos.y, radius, options);
 
-        // if (rotation != 0) {
-        //     Body.rotate(b, rotation);
-        // }
-
         Composite.add(engine.world, b);
         return b;
     }
@@ -233,7 +235,7 @@ export class MatterWorldHandler extends MatterHandler {
                 {
                     var a = e.bodyA;
                     var b = e.bodyB;
-                    return (a.id == bod.id || b.id == bod.id) && (a.collisionFilter.category == WORM_CATEGORY || b.collisionFilter.category == WORM_CATEGORY);
+                    return (a.id == bod.id || b.id == bod.id) && (a.collisionFilter.category == WORM_CATEGORY || b.collisionFilter.category == WORM_CATEGORY || a.collisionFilter.category == WORM2_CATEGORY || b.collisionFilter.category == WORM2_CATEGORY);
                 }
             );
             if(rightPairs.length>0){

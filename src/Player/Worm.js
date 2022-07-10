@@ -11,7 +11,7 @@ export const historyLength = 7; //frames of history ish
 const MaxAngularVelocity = 3;
 
 export default class Snek {
-    constructor(moveDist, maxLength, moveSpeed, width, matterHandler, resetFunc) {
+    constructor(moveDist, maxLength, moveSpeed, width, matterHandler, resetFunc,isWorm2 = false) {
         this.askForReset = resetFunc;
         this.matterHandler = matterHandler;
         this.moveDist = moveDist;
@@ -25,6 +25,7 @@ export default class Snek {
         this.isMoving = false;
         this.isReversing = false;
         this.SingularityCounter = 20;
+        this.isWorm2 = isWorm2;
     }
     addSegment(p, width) {
 
@@ -33,7 +34,7 @@ export default class Snek {
             p.x += this.moveDist;
         }
 
-        var s = this.matterHandler.addSnekSegment(p, width);
+        var s = this.matterHandler.addSnekSegment(p, width,this.isWorm2);
 
 
         if (Math.random() > 0.5) {
@@ -60,11 +61,11 @@ export default class Snek {
 
     createWholeWorm(p) {
         for (var i = 0; i < this.partCount; i++) {
-            this.addSegment(p, this.width);
+            this.addSegment(p, this.width,this.isWorm2);
         }
         var head = this.objects[this.objects.length - 1];
         var eyePos = new Vec2(head.position);
-        this.eye = this.matterHandler.addEye(this.width / 2.5, head);
+        this.eye = this.matterHandler.addEye(this.width / 2.5, head,this.isWorm2);
         this.eye.render.fillStyle = Colors.SnekEye;
 
         this.tongue = new SnekTongue(this.matterHandler, this.width);
