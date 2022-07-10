@@ -59,3 +59,7 @@ button{
 .hidden{
     display: none;
 }
+#inspectorItems{
+    max-height: calc(100vh - 80px);
+    overflow: auto;
+}

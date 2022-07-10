@@ -242,13 +242,13 @@ class EditerPlayerHelper{
     }
     setStartPosition(p){
         this.snekSettings.startPos = p;
-        this.player.resetWormPos(p);
+        this.player.resetWormPos(null,p);
     }
     reset(){
-        this.player.resetWormPos(this.snekSettings.startPos);
+        this.player.resetWormPos(null,this.snekSettings.startPos);
     }
     play(){
-        this.player.resetWormPos(this.snekSettings.startPos);
+        this.player.resetWormPos(null,this.snekSettings.startPos);
         this.isPlaying = true;
         this.update();
     }
@@ -261,3 +261,4 @@ class EditerPlayerHelper{
     }
 
 }
+

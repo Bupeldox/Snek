@@ -66,6 +66,7 @@ export class Player {
         }else{
             if(this.Worm2){
                 this.Worm2.removeWholeWorm();
+                this.Worm2 = null;
             }
         }
 
