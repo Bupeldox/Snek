@@ -76,13 +76,14 @@ class MatterHandlerBase{
 
 
 export class MatterHandler extends MatterHandlerBase {
-    constructor(){
+    constructor(loadNewLevelFunc){
         super();
         if(document.getElementById("fullscreen")){
             document.getElementById("fullscreen").addEventListener("click",()=>{
                 render.element.requestFullscreen();
             });
         }
+        this.loadNewLevelFunc = loadNewLevelFunc;
     }
 
     setSnekCollisionStuff(body,isSnek2){
@@ -183,7 +184,8 @@ export class MatterHandler extends MatterHandlerBase {
         // add all of the bodies to the world
         
         var worldHandler = new MatterWorldHandler();
-        var level = levelFactory.getLevel(levelNumber)(worldHandler, width, height, (i) => this.LoadLevel(i));
+        levelFactory.setToChangeLevel((i) => this.loadNewLevelFunc(i));
+        var level = levelFactory.getLevel(levelNumber)(worldHandler, width, height);
         level.createBodies();
 
         return level;

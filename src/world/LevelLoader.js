@@ -10,6 +10,9 @@ export class LevelLoader {
     }
 
     ///returns list of elements, and a list of objectives, and the snek start settings.
+    getIndexOfTitle(title){
+        return LevelObjects.findIndex(i=>i.title == title);
+    }
     getElements(index) {
 
         var data = LevelObjects[index];

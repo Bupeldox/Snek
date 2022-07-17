@@ -2,7 +2,6 @@ import { Colors } from "../Utilities/Colors.js";
 import SnekTongue from "./SnekTongue.js";
 import Vec2 from "../Utilities/vec2.js";
 import WormJoint from "./WormJoint.js";
-import Color from "color";
 
 export const maxAngle = 0.3;
 export const maxDeltaAngle = 0.05;

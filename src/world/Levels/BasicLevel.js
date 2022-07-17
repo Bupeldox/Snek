@@ -6,15 +6,19 @@ import { LevelLoader } from "../LevelLoader";
 
 
 export class BasicLevel extends LevelBase {
-    constructor(matterHandler, width, height, changeLevelFunc, nextLevelIndex,levelDataIndex) {
-        super(matterHandler, width, height, changeLevelFunc)
+    constructor(matterHandler, width, height, onComplete,levelDataIndex) {
+        super(matterHandler, width, height)
         this.matterHandler = matterHandler;
-        this.changeLevelFunc = changeLevelFunc;
         this.levelLoader = new LevelLoader(matterHandler);
-        this.levelIndex = levelDataIndex;
-        this.nextLevelIndex = nextLevelIndex
+        this.onComplete = onComplete;
 
-        var dat = this.levelLoader.getElements(levelDataIndex);
+        if(typeof (levelDataIndex)  == 'number'){
+            this.levelIndex = levelDataIndex;
+        }else if(typeof(levelDataIndex) == 'string'){
+            this.levelIndex = this.levelLoader.getIndexOfTitle(levelDataIndex);
+        }
+
+        var dat = this.levelLoader.getElements(this.levelIndex);
 
 
         this.bodies = dat.levelElements;
@@ -44,7 +48,7 @@ export class BasicLevel extends LevelBase {
     setupEvents() {
 
         this.matterHandler.registerPlayerCollisionEvent(this.goals[0], () => {
-            this.changeLevelFunc(this.nextLevelIndex);
+            this.onComplete();
         });
 
     }

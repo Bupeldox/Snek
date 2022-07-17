@@ -63,3 +63,6 @@ button{
     max-height: calc(100vh - 80px);
     overflow: auto;
 }
+.invalid{
+    border:1px solid red;
+}

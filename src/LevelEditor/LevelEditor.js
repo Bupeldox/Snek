@@ -76,6 +76,7 @@ export class LevelEditor {
                 $("#exportButton").text("Export");
             }
         });
+        $("#inspectorish").on("click",()=>{$("#jsonOutput").val("")});
     }
     getFirstSelected(com){
         if(!com){
@@ -157,6 +158,7 @@ export class LevelEditor {
 
     export() {
         var outputObj = {
+            title:"",
             elementData:[],
             snekSettings:{}
         };
@@ -169,6 +171,13 @@ export class LevelEditor {
 
         outputObj.snekSettings = this.player.snekSettings;
         outputObj.elementData = elementData;
+
+        outputObj.title = $("#level-name").val();
+        if(outputObj.title == ""){
+            $("#level-name").addClass("invalid");
+        }else{
+            $("#level-name").removeClass("invalid");
+        }
 
         var json = JSON.stringify(outputObj);
         $("#jsonOutput").val(json);
@@ -196,6 +205,8 @@ export class LevelEditor {
             var element = this.addElement(elemData.shape);
             element.setFromExportData(elemData);
         }
+
+        $("#level-name").val(levelData.title);
     }
 }
 

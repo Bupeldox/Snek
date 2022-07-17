@@ -3,11 +3,10 @@ import Vec2 from "../Utilities/vec2";
 
 
 export class LevelBase {
-    constructor(MatterWorldHandler, width, height,changeLevelFunc,targetLevel) {
+    constructor(MatterWorldHandler, width, height,onComplete) {
         console.log("boop");
         this.MatterWorldHandler = MatterWorldHandler;
-        this.targetLevel = targetLevel;
-        this.changeLevelFunc = changeLevelFunc;
+        this.onComplete = onComplete;
 
         this.width = width;
         this.height = height;

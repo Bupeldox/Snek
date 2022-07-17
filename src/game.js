@@ -4,7 +4,7 @@ import { Player } from "./Player/Player";
 
 export default class Game {
     constructor() {
-        this.MatterHandler = new MatterHandler();
+        this.MatterHandler = new MatterHandler((i)=>this.loadNewLevel(i));
         this.updateLoop = new CustomRunner();
         this.updateLoop.registerOnUpdate((t) => { this.update(t); });
         this.loadNewLevel(0);

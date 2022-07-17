@@ -2,7 +2,7 @@ import { Colors } from "../../Utilities/Colors";
 import Vec2 from "../../Utilities/vec2";
 import { LevelBase } from "../LevelBase";
 
-export class Level2 extends LevelBase {
+export class RandomLevel extends LevelBase {
     getSnekStartPos(){
         return new Vec2(200, 700);
     }
@@ -18,12 +18,19 @@ export class Level2 extends LevelBase {
         };
 
         var grassProps = staticObjProps;
-        var grassSpacing = 120;
-        var grassSize = 80;
-        var grassCount = (w - 40) / grassSize;
+        var maxSize = 200;
+        var minSize = 10;
+        var sizeRange = maxSize-minSize;
 
-        for (var i = 0; i < grassCount; i++) {
-            var rect = this.MatterWorldHandler.createRect(i * grassSpacing, h, grassSize, grassSize, grassProps, Math.PI / 4);
+        for (var i = 0; i < 30; i++) {
+            var rect = this.MatterWorldHandler.createRect(
+                Math.random() * w,
+                Math.random() * h,
+                minSize + (Math.random() * sizeRange),
+                minSize + (Math.random() * sizeRange),
+                grassProps,
+                Math.PI * Math.random()
+            );
             this.bodies.push(rect);
         }
 
@@ -33,7 +40,7 @@ export class Level2 extends LevelBase {
         this.goals[0] = (this.MatterWorldHandler.createCollectable(w-100, h - 200));
        
         this.MatterWorldHandler.registerPlayerCollisionEvent(this.goals[0],()=>{
-            this.onComplete();
+            this.changeLevelFunc(this.targetLevel);
         });
 
     }
