@@ -43,8 +43,8 @@ export default class LevelFactory {
             (mwh, w, h) => new BasicLevel(   mwh,w,h,(e)=>{this.onLevelComplete(2,e);}   ,"Ball pit"),
             (mwh, w, h) => new BasicLevel(   mwh,w,h,(e)=>{this.onLevelComplete(3,e);}   ,"Bush gap"), 
             (mwh, w, h) => new BasicLevel(   mwh,w,h,(e)=>{this.onLevelComplete(4,e);}   ,"Grass mound"), 
-            (mwh, w, h) => new BasicLevel(   mwh,w,h,(e)=>{this.onLevelComplete(5,e);}   ,"Bench and gate"), 
-            (mwh, w, h) => new BasicLevel(   mwh,w,h,(e)=>{this.onLevelComplete(6,e);}   ,"Hisyphus"), 
+            (mwh, w, h) => new BasicLevel(   mwh,w,h,(e)=>{this.onLevelComplete(5,e);}   ,"Hisyphus"), 
+            (mwh, w, h) => new BasicLevel(   mwh,w,h,(e)=>{this.onLevelComplete(6,e);}   ,"Bench and gate"), 
             (mwh, w, h) => new BasicLevel(   mwh,w,h,(e)=>{this.onLevelComplete(7,e);}   ,"Totem"), 
             (mwh, w, h) => new RandomLevel(  mwh,w,h,(e)=>{this.onLevelComplete(8,e);}   ), //Random (Loop)
         ];
