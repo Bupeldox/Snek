@@ -2,6 +2,8 @@ import { Colors } from "../../Utilities/Colors";
 import Vec2 from "../../Utilities/vec2";
 import { LevelBase } from "../LevelBase";
 
+
+
 export class RandomLevel extends LevelBase {
     getSnekStartPos(){
         return new Vec2(200, 700);
@@ -22,7 +24,14 @@ export class RandomLevel extends LevelBase {
         var minSize = 10;
         var sizeRange = maxSize-minSize;
 
-        for (var i = 0; i < 30; i++) {
+
+        if(!window.randomLevelCounter){
+            window.randomLevelCounter = 2;
+        }else{
+            window.randomLevelCounter = window.randomLevelCounter + 2;
+        }
+
+        for (var i = 0; i < window.randomLevelCounter ; i++) {
             var rect = this.MatterWorldHandler.createRect(
                 Math.random() * w,
                 Math.random() * h,
@@ -40,7 +49,7 @@ export class RandomLevel extends LevelBase {
         this.goals[0] = (this.MatterWorldHandler.createCollectable(w-100, h - 200));
        
         this.MatterWorldHandler.registerPlayerCollisionEvent(this.goals[0],()=>{
-            this.changeLevelFunc(this.targetLevel);
+            this.onComplete();
         });
 
     }

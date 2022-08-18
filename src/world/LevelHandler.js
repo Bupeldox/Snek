@@ -21,16 +21,19 @@ export default class LevelFactory {
     constructor(toChangeLevel) {
         // basic level, mwh,w,h,func,nextLevelindex(in this list),source
         var ln=1;
+        this.toChangeLevel = toChangeLevel;
 
+        //Levelouts = [exit] = level index.
         this.levelOrder = [
-            {levelIndex:0,levelOuts:[1]},
+            {levelIndex:0,levelOuts:[8]},
             {levelIndex:1,levelOuts:[2]},
             {levelIndex:2,levelOuts:[3]},
             {levelIndex:3,levelOuts:[4]},
             {levelIndex:4,levelOuts:[5]},
             {levelIndex:5,levelOuts:[6]},
             {levelIndex:6,levelOuts:[7]},
-            {levelIndex:7,levelOuts:[7]},
+            {levelIndex:7,levelOuts:[8]},
+            {levelIndex:8,levelOuts:[8]},
         ];
 
 
@@ -41,8 +44,9 @@ export default class LevelFactory {
             (mwh, w, h) => new BasicLevel(   mwh,w,h,(e)=>{this.onLevelComplete(3,e);}   ,"Bush gap"), 
             (mwh, w, h) => new BasicLevel(   mwh,w,h,(e)=>{this.onLevelComplete(4,e);}   ,"Grass mound"), 
             (mwh, w, h) => new BasicLevel(   mwh,w,h,(e)=>{this.onLevelComplete(5,e);}   ,"Bench and gate"), 
-            (mwh, w, h) => new BasicLevel(   mwh,w,h,(e)=>{this.onLevelComplete(6,e);}   ,"Totem"), 
-            (mwh, w, h) => new RandomLevel(  mwh,w,h,(e)=>{this.onLevelComplete(7,e);}   ), //Random (Loop)
+            (mwh, w, h) => new BasicLevel(   mwh,w,h,(e)=>{this.onLevelComplete(6,e);}   ,"Hisyphus"), 
+            (mwh, w, h) => new BasicLevel(   mwh,w,h,(e)=>{this.onLevelComplete(7,e);}   ,"Totem"), 
+            (mwh, w, h) => new RandomLevel(  mwh,w,h,(e)=>{this.onLevelComplete(8,e);}   ), //Random (Loop)
         ];
     }
     onLevelComplete(levelIndexCompleted,exitNumber = 0){
