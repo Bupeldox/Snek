@@ -5,11 +5,11 @@ Hold down click somewhere then wiggle!
 
 ## Controls
 ### Keyboard & Mouse
-Wiggle Forwards - Hold Click or 'W'
-Wiggle Backwards - Hold 'S'
-Wiggle Direction - Mouse
+- Wiggle Forwards - Hold Click or 'W'
+- Wiggle Backwards - Hold 'S'
+- Wiggle Direction - Mouse
 
 ### Controller (Co-op Player 2)
-Wiggle Forwards - Right Stick
-Wiggle Backwards - Left Stick
+- Wiggle Forwards - Right Stick
+- Wiggle Backwards - Left Stick
 
