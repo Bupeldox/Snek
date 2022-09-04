@@ -25,7 +25,7 @@ export default class LevelFactory {
 
         //Levelouts = [exit] = level index.
         this.levelOrder = [
-            {levelIndex:0,levelOuts:[8]},
+            {levelIndex:0,levelOuts:[1]},
             {levelIndex:1,levelOuts:[2]},
             {levelIndex:2,levelOuts:[3]},
             {levelIndex:3,levelOuts:[4]},

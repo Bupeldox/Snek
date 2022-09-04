@@ -36,7 +36,7 @@ var render = Render.create({
     }
 
 });
-
+render.options.showCollisions = true
 
 // run the renderer
 Render.run(render);
@@ -74,6 +74,49 @@ class MatterHandlerBase{
     }
 }
 
+export class MatterCollisionHandler{
+    constructor(){
+        this.tpairs = [];
+       // Events.on(engine, 'collisionStart',e=>{this.onCollisionStart(e)});
+       // Events.on(engine, 'collisionEnd',e=>{this.onCollisionEnd(e)});
+    }
+    getPairs(){
+        return engine.pairs.list;
+    }
+    onCollisionEnd(event){
+        this.tpairs = 
+            this.tpairs.filter(
+                i=>event.pairs.some(
+                    k=>
+                    !((i.bodyA.id == k.bodyA.id && i.bodyB.id == k.bodyB.id) 
+                    ||(i.bodyB.id == k.bodyA.id && i.bodyA.id == k.bodyB.id))
+                )
+            )
+    }
+    registerObjectsAndEvents(bodies,callback){
+        this.callback = callback;
+        Events.on(engine, 'collisionStart',this.onCollisionStart);
+    }
+    unRegisterEvents(){
+        Events.off(engine,"collisionStart")
+    }
+    onCollisionStart(event){
+        if(!this.tpairs){
+            this.tpairs = [];
+        }
+        this.tpairs.push(...event.pairs);
+
+        var pairs = event.pairs;
+        // change object colours to show those starting a collision
+        for (var i = 0; i < pairs.length; i++) {
+            var pair = pairs[i];
+            pair.bodyA.render.fillStyle = '#333';
+            pair.bodyB.render.fillStyle = '#333';
+        }
+        if(this.callback)
+            this.callback(event);
+    }
+}
 
 export class MatterHandler extends MatterHandlerBase {
     constructor(loadNewLevelFunc){

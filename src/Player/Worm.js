@@ -2,6 +2,7 @@ import { Colors } from "../Utilities/Colors.js";
 import SnekTongue from "./SnekTongue.js";
 import Vec2 from "../Utilities/vec2.js";
 import WormJoint from "./WormJoint.js";
+import SnekSounds from "./SnekSounds.js";
 
 export const maxAngle = 0.3;
 export const maxDeltaAngle = 0.05;
@@ -11,6 +12,7 @@ const MaxAngularVelocity = 3;
 
 export default class Snek {
     constructor(moveDist, maxLength, moveSpeed, width, matterHandler, resetFunc,isWorm2 = false) {
+       
         this.askForReset = resetFunc;
         this.matterHandler = matterHandler;
         this.moveDist = moveDist;
@@ -70,6 +72,7 @@ export default class Snek {
         this.tongue = new SnekTongue(this.matterHandler, this.width);
         this.tail = new SnekTongue(this.matterHandler, this.width);
 
+        this.soundHandler = new SnekSounds(this);
     }
 
     create(p) {
@@ -177,6 +180,7 @@ export default class Snek {
     update() {
         if (this.objects && this.objects.length >= 1) {
             if (Math.abs(this.objects[0].angularVelocity) > MaxAngularVelocity) {
+                this.soundHandler.onPhysicsBreak();
                 this.onPhysicsBreak();
             }
         }
@@ -193,8 +197,10 @@ export default class Snek {
         } else {
             this.tail.hide();
         }
+        this.soundHandler.update();
 
 
+        //undo for next time
         this.isMoving = false;
         this.isReversing = false;
     }
@@ -223,6 +229,7 @@ export default class Snek {
         this.eye = undefined;
 
         this.setStartAngles();
+        this.soundHandler.destroy();
     }
 
 }
