@@ -83,6 +83,9 @@ export class MatterCollisionHandler{
     getPairs(){
         return engine.pairs.list;
     }
+    getVelocities(){
+        return engine.world.bodies.map(i=>i.velocity);
+    }
     onCollisionEnd(event){
         this.tpairs = 
             this.tpairs.filter(

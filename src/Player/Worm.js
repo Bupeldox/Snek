@@ -2,7 +2,7 @@ import { Colors } from "../Utilities/Colors.js";
 import SnekTongue from "./SnekTongue.js";
 import Vec2 from "../Utilities/vec2.js";
 import WormJoint from "./WormJoint.js";
-import SnekSounds from "./SnekSounds.js";
+import { SnekSounds } from "../Sound/SnekSounds.js";
 
 export const maxAngle = 0.3;
 export const maxDeltaAngle = 0.05;
@@ -180,7 +180,6 @@ export default class Snek {
     update() {
         if (this.objects && this.objects.length >= 1) {
             if (Math.abs(this.objects[0].angularVelocity) > MaxAngularVelocity) {
-                this.soundHandler.onPhysicsBreak();
                 this.onPhysicsBreak();
             }
         }
