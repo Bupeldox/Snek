@@ -67,6 +67,5 @@ export class EnvironmentSounds{
     }
     onPhysicsBreak(){
         this.sounds.blackHole.play();
-        blackHole.play();
     }
 }
