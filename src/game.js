@@ -1,6 +1,7 @@
 import { CustomRunner } from "./Utilities/CustomRunner.js";
 import { MatterHandler } from "./MatterHandler.js";
 import { Player } from "./Player/Player";
+import { ButtonEventHandler } from "./Player/MouseEventHandler.js";
 
 export default class Game {
     constructor() {
@@ -10,6 +11,10 @@ export default class Game {
         this.loadNewLevel(0);
 
         this.updateLoop.start();
+        this.cheatsButton = new ButtonEventHandler(document,"@");
+        this.cheatsButton.registerDown(()=>{
+            this.level.onComplete();
+        })
     }
     loadNewLevel(index) {
         this.MatterHandler.unloadLevel();
