@@ -12,6 +12,7 @@
   "dependencies": {
     "color": "^4.2.3",
     "colorjs.io": "0.0.5",
+    "howler": "^2.2.3",
     "jquery": "^3.6.0",
     "matter-js": "^0.18.0",
     "webpack": "^5.72.0"
