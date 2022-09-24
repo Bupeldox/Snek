@@ -44,7 +44,7 @@ export class Player {
         else{
             worm.removeWholeWorm();
             worm.create(p);
-            this.followCamera.updateFollow(worm.objects[0]);
+            this.followCamera.updateFollow(worm.objects[Math.floor(worm.objects.length/2)]);
         }
     }
 
@@ -73,10 +73,10 @@ export class Player {
         }
 
         if (this.MouseDraggingHelper.isDragging || this.forwardsControlHandler.isPressed) {
-            this.Worm.move(this.MouseDraggingHelper.pos);
+            this.Worm.move(this.MouseDraggingHelper.pos.add(this.followCamera.offset));
         } else if (this.reverseControlHandler.isPressed) {
 
-            this.Worm.reverse(this.MouseDraggingHelper.pos);
+            this.Worm.reverse(this.MouseDraggingHelper.pos.add(this.followCamera.offset));
         }
     
         if(this.resetControlHandler.isPressed){
@@ -86,11 +86,11 @@ export class Player {
             }
         }
       
-        this.Worm.update();
-        this.Worm2?.update();
+        this.Worm.update(this.followCamera.offset);
+        this.Worm2?.update(this.followCamera.offset);
 
 
-        this.followCamera.Update();
+        this.followCamera.Update(this.MouseDraggingHelper.pos);
     }
     destroy() {
         this.Worm.removeWholeWorm();
