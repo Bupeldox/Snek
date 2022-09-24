@@ -1,5 +1,5 @@
 import { CustomRunner } from "./Utilities/CustomRunner.js";
-import { MatterHandler } from "./MatterHandler.js";
+import { MatterHandler } from "./Matter/MatterHandler.js";
 import { Player } from "./Player/Player";
 import { ButtonEventHandler } from "./Player/MouseEventHandler.js";
 
@@ -23,6 +23,7 @@ export default class Game {
         } else {
             this.player = new Player(this.MatterHandler);
         }
+        
 
         this.level = this.MatterHandler.LoadLevel(index);
         this.level.changeLevelFunc = (i) => this.loadNewLevel(i);

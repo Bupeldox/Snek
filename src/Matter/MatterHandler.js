@@ -1,8 +1,8 @@
 import Matter from "matter-js";
-import { Colors } from "./Utilities/Colors";
-import LevelFactory from "./world/LevelHandler";
+import { Colors } from "../Utilities/Colors";
+import LevelFactory from "../world/LevelHandler";
 
-import Vec2 from "./Utilities/vec2";
+import Vec2 from "../Utilities/vec2";
 
 
 export var Engine = Matter.Engine,
@@ -13,19 +13,20 @@ export var Engine = Matter.Engine,
     Body = Matter.Body,
     Constraint = Matter.Constraint,
     Events = Matter.Events,
-    levelFactory = new LevelFactory()
+    levelFactory = new LevelFactory(),
+    Bounds = Matter.Bounds
 
 
 
 
 // create an engine
-var engine = Engine.create({});
+export var engine = Engine.create({});
 
-const height = 800;
-const width = 1000;
+export const height = 800;
+export const width = 1000;
 
 // create a renderer
-var render = Render.create({
+export var render = Render.create({
     element: document.getElementById("canvasTarget") || document.body,
     engine: engine,
     options: {
@@ -36,7 +37,6 @@ var render = Render.create({
     }
 
 });
-
 
 // run the renderer
 Render.run(render);
@@ -287,3 +287,5 @@ export class LevelEditorMatterHandler extends MatterWorldHandler {
     }
 
 }
+
+

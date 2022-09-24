@@ -3,6 +3,7 @@ import Vec2 from "../Utilities/vec2.js";
 import Worm from "./Worm.js";
 
 import { MAX_LENGTH,MOVE_DIST,MOVE_SPEED,WORM_RADIUS } from "../Utilities/WormSettings.js";
+import { CameraFollowController } from "../Matter/CameraFollowController";
 
 export class Player {
     constructor(MatterHandler,controllerNumber) {
@@ -14,7 +15,7 @@ export class Player {
         this.forwardsControlHandler = new ButtonEventHandler(document.body, "w");
         this.resetControlHandler = new ButtonEventHandler(document.body,"r");
         this.controllerHandler = new ControllerHandler();
-        
+        this.followCamera = new CameraFollowController();
 
         this.clickHandler.register(() => { this.Worm.onPhysicsBreak(); });
         this.Worm = new Worm(MOVE_DIST, MAX_LENGTH, MOVE_SPEED, WORM_RADIUS, this.MatterHandler, () => { this.resetWormPos(this.Worm); });
@@ -43,6 +44,7 @@ export class Player {
         else{
             worm.removeWholeWorm();
             worm.create(p);
+            this.followCamera.updateFollow(worm.objects[0]);
         }
     }
 
@@ -86,6 +88,9 @@ export class Player {
       
         this.Worm.update();
         this.Worm2?.update();
+
+
+        this.followCamera.Update();
     }
     destroy() {
         this.Worm.removeWholeWorm();

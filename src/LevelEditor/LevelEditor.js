@@ -1,6 +1,6 @@
 import Vec2 from "../Utilities/vec2.js";
 import $ from "jquery";
-import { LevelEditorMatterHandler, MatterHandler } from "../MatterHandler.js";
+import { LevelEditorMatterHandler, MatterHandler } from "../Matter/MatterHandler.js";
 import { ElementFactory } from "./ElementFactory.js";
 import MouseDraggingHelper from "../Player/MouseEventHandler.js";
 import { Player } from "../Player/Player.js";
