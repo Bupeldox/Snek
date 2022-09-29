@@ -63,7 +63,10 @@ export default class MouseDraggingHelper {
 
         this.pos = p;
     }
-    eToVec(e) {
+    setOffsetFunc(f){
+        this.offsetFunc = f;
+    }
+    eToVec(e,offset) {
 
         var x,y;
 
@@ -78,7 +81,11 @@ export default class MouseDraggingHelper {
         y = this.element.height * y / this.element.offsetHeight
         x = this.element.width * x / this.element.offsetWidth
 
-        return new Vec2(x, y);
+        var p = new Vec2(x, y)
+        if( this.offsetFunc ){
+            p = p.add(this.offsetFunc());
+        }
+        return p;
     }
 
 }

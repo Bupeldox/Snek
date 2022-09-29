@@ -174,14 +174,17 @@ export default class Snek {
         }
     }
 
-    update() {
+    update(cameraOffset) {
         if (this.objects && this.objects.length >= 1) {
             if (Math.abs(this.objects[0].angularVelocity) > MaxAngularVelocity) {
                 this.onPhysicsBreak();
             }
         }
-        this.tongue.updatePos(this.objects[this.objects.length - 1].position);
-        this.tail.updatePos(this.objects[0].position);
+
+        var tonguePos = new Vec2(this.objects[this.objects.length - 1].position).sub(cameraOffset);
+        var tailPos = new Vec2(this.objects[0].position).sub(cameraOffset);
+        this.tongue.updatePos(tonguePos);
+        this.tail.updatePos(tailPos);
 
         if (this.isMoving) {
             this.tongue.show();

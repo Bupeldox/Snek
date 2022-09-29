@@ -3,6 +3,7 @@ import Vec2 from "../Utilities/vec2.js";
 import Worm from "./Worm.js";
 
 import { MAX_LENGTH,MOVE_DIST,MOVE_SPEED,WORM_RADIUS } from "../Utilities/WormSettings.js";
+import { CameraFollowController } from "../Matter/CameraFollowController";
 
 export class Player {
     constructor(MatterHandler,controllerNumber) {
@@ -14,35 +15,39 @@ export class Player {
         this.forwardsControlHandler = new ButtonEventHandler(document.body, "w");
         this.resetControlHandler = new ButtonEventHandler(document.body,"r");
         this.controllerHandler = new ControllerHandler();
+
+        if(!controllerNumber){
+            this.followCamera = new CameraFollowController();
+        }
         
 
         this.clickHandler.register(() => { this.Worm.onPhysicsBreak(); });
         this.Worm = new Worm(MOVE_DIST, MAX_LENGTH, MOVE_SPEED, WORM_RADIUS, this.MatterHandler, () => { this.resetWormPos(this.Worm); });
 
-        
+        this.onNewLevel(false,false,);
     }
 
-    resetWormPos(worm,p) {
-        if (!p) {
-            if(this.startPos){
-                p = this.startPos;
-            }else{
-                p = new Vec2(300, 730);
-            }
-                
-        }else{
-            this.startPos = p;
+    onNewLevel(startPos,followCam){
+        this.startPos = startPos;
+        if(!startPos){
+            this.startPos = new Vec2(300, 730);
         }
+        this.followCamera.onNewLevel(followCam);
+    }    
+    resetWormPos(worm) {
+        var p = this.startPos;          
 
         if(!worm){
-            this.resetWormPos(this.Worm,p);
+            this.resetWormPos(this.Worm);
             if(this.Worm2){
-                this.resetWormPos(this.Worm2,p);
+                this.resetWormPos(this.Worm2);
             }
         }
         else{
             worm.removeWholeWorm();
             worm.create(p);
+
+            this.followCamera.updateFollow(worm.objects[Math.floor(3*worm.objects.length/4)],false);
         }
     }
 
@@ -71,10 +76,10 @@ export class Player {
         }
 
         if (this.MouseDraggingHelper.isDragging || this.forwardsControlHandler.isPressed) {
-            this.Worm.move(this.MouseDraggingHelper.pos);
+            this.Worm.move(this.MouseDraggingHelper.pos.add(this.followCamera.offset));
         } else if (this.reverseControlHandler.isPressed) {
 
-            this.Worm.reverse(this.MouseDraggingHelper.pos);
+            this.Worm.reverse(this.MouseDraggingHelper.pos.add(this.followCamera.offset));
         }
     
         if(this.resetControlHandler.isPressed){
@@ -84,8 +89,11 @@ export class Player {
             }
         }
       
-        this.Worm.update();
-        this.Worm2?.update();
+        this.Worm.update(this.followCamera.offset);
+        this.Worm2?.update(this.followCamera.offset);
+
+
+        this.followCamera.Update(this.MouseDraggingHelper.pos);
     }
     destroy() {
         this.Worm.removeWholeWorm();

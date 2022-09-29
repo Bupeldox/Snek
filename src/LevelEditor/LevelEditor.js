@@ -1,6 +1,6 @@
 import Vec2 from "../Utilities/vec2.js";
 import $ from "jquery";
-import { LevelEditorMatterHandler, MatterHandler } from "../MatterHandler.js";
+import { LevelEditorMatterHandler, MatterHandler } from "../Matter/MatterHandler.js";
 import { ElementFactory } from "./ElementFactory.js";
 import MouseDraggingHelper from "../Player/MouseEventHandler.js";
 import { Player } from "../Player/Player.js";
@@ -21,7 +21,7 @@ export class LevelEditor {
         this.player = new EditerPlayerHelper(this.matterHandler);
         this.player.play();
 
-        
+        this.mouseEventHandler.setOffsetFunc(()=>this.player.player.followCamera.offset)
         
         var goal = this.addElement("circle");
         goal.options.render.fillStyle = Colors.Collectable;
@@ -37,6 +37,7 @@ export class LevelEditor {
     }
 
     events() {
+        var that = this;
         $(".addElement").on("click", (e) => {
             var type = e.target.dataset.shape;
             this.addElement(type);
@@ -77,6 +78,11 @@ export class LevelEditor {
             }
         });
         $("#inspectorish").on("click",()=>{$("#jsonOutput").val("")});
+
+        $("#followCamera").on("change",function(e){
+
+            that.player.setFollowCamera(this.checked);
+        });
     }
     getFirstSelected(com){
         if(!com){
@@ -220,23 +226,44 @@ class Prefabs{
         var output = [];
 
         var floor = this.elementFactory.createRect();
-        floor.changeDimentions(100, width + 40);
-        floor.move(new Vec2(width / 2, height));
+        floor.changeDimentions(height, width + 40);
+        floor.move(new Vec2(width / 2, height + (height/2)-50));
 
         var wallLeft = this.elementFactory.createRect();
-        wallLeft.changeDimentions(height + 40,100);
-        wallLeft.move(new Vec2(0,height / 2));
+        wallLeft.changeDimentions(height + 40,width+100);
+        wallLeft.move(new Vec2((-width/2),height / 2));
 
         var wallRight = this.elementFactory.createRect();
-        wallRight.changeDimentions(height + 40,100);
-        wallRight.move(new Vec2(width,height / 2));
+        wallRight.changeDimentions(height + 40,width+100);
+        wallRight.move(new Vec2(width + (width/2),height / 2));
 
         var ceil = this.elementFactory.createRect();
-        ceil.changeDimentions(100, width + 40);
-        ceil.move(new Vec2(width / 2, 0));
+        ceil.changeDimentions(height+100, width + 40);
+        ceil.move(new Vec2(width / 2, -height/2));
         
-        
+        //corners 
 
+        var tlcorner = this.elementFactory.createRect();
+        tlcorner.changeDimentions(height, width);
+        tlcorner.move(new Vec2(-width / 2, -height/2));
+
+
+        var trcorner = this.elementFactory.createRect();
+        trcorner.changeDimentions(height, width);
+        trcorner.move(new Vec2(width + (width / 2), height+(height/2)));
+
+        
+        var blcorner = this.elementFactory.createRect();
+        blcorner.changeDimentions(height, width);
+        blcorner.move(new Vec2(-width / 2, height+(height/2)));
+
+        
+        var brcorner = this.elementFactory.createRect();
+        brcorner.changeDimentions(height, width);
+        brcorner.move(new Vec2(width + (width / 2), -height/2));
+
+
+        output.push(tlcorner,trcorner,blcorner,brcorner);
         output.push(floor,wallLeft,wallRight,ceil);
         return output;
     }
@@ -247,19 +274,29 @@ class EditerPlayerHelper{
         this.player = new Player(mh);
         this.tempSnekHolder = this.player.Worm;
         this.snekSettings = {
-            startPos:new Vec2(200,500)
+            startPos:new Vec2(200,500),
+            followCamera:false,
         };
         this.isPlaying = false;
     }
+    setFollowCamera(val){
+        this.snekSettings.followCamera = val;
+        this.updateSnekSettings();
+    }
+    updateSnekSettings(){
+        
+        this.player.onNewLevel(this.snekSettings.startPos,this.snekSettings.followCamera);
+        this.player.resetWormPos();
+    }
     setStartPosition(p){
         this.snekSettings.startPos = p;
-        this.player.resetWormPos(null,p);
+        this.updateSnekSettings();
     }
     reset(){
-        this.player.resetWormPos(null,this.snekSettings.startPos);
+        this.player.resetWormPos();
     }
     play(){
-        this.player.resetWormPos(null,this.snekSettings.startPos);
+        this.player.resetWormPos();
         this.isPlaying = true;
         this.update();
     }
