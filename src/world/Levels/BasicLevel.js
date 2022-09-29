@@ -25,7 +25,7 @@ export class BasicLevel extends LevelBase {
         this.goals = dat.goals;
 
         this.startpos = new Vec2(dat.snekSettings.startPos);
-        
+        this.followCamera = dat.snekSettings.followCamera;
        
     }
 

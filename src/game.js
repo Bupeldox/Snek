@@ -3,8 +3,6 @@ import { MatterHandler } from "./Matter/MatterHandler.js";
 import { Player } from "./Player/Player";
 import { ButtonEventHandler } from "./Player/MouseEventHandler.js";
 
-var testingN = 0;
-
 export default class Game {
     constructor() {
         this.MatterHandler = new MatterHandler((i)=>this.loadNewLevel(i));
@@ -29,8 +27,7 @@ export default class Game {
     
         this.level = this.MatterHandler.LoadLevel(index);
  
-        this.player.onNewLevel(this.level.getSnekStartPos(), /*this.level.followCamera??false*/ testingN%2==0);
-        testingN++;
+        this.player.onNewLevel(this.level.getSnekStartPos(), this.level.followCamera??false);
         this.player.resetWormPos();
 
     }

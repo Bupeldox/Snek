@@ -19,11 +19,12 @@ export class Player {
         if(!controllerNumber){
             this.followCamera = new CameraFollowController();
         }
+        
 
         this.clickHandler.register(() => { this.Worm.onPhysicsBreak(); });
         this.Worm = new Worm(MOVE_DIST, MAX_LENGTH, MOVE_SPEED, WORM_RADIUS, this.MatterHandler, () => { this.resetWormPos(this.Worm); });
 
-        
+        this.onNewLevel(false,false,);
     }
 
     onNewLevel(startPos,followCam){
