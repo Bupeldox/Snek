@@ -1,14 +1,18 @@
+*{
+    box-sizing:border-box;
+}
+
 canvas {
     user-select: none;
     -webkit-user-select: none;
     -moz-user-select: none;
-    position: absolute;
-    top:0;
-    left:0;
-    z-index: -1;
+    /* position: absolute; */
+    /* top:0; */
+    /* left:0; */
+    /* z-index: -1; */
     max-width: min(min(calc(100% - 50px), 100vw), 1000px);
     max-height: min(min(calc(100% - 50px), 100vh), 800px);
-    margin:25px;
+    /* margin:25px; */
 }
 .levelEditorCanvasTarget canvas{
     position: relative;
@@ -16,6 +20,19 @@ canvas {
 }
 #canvasTarget{
     background-color:#5A6637;
+}
+.centerCanvas{
+    
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
 }
 
 .overlay{
