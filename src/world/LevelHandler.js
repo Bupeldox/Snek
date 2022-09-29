@@ -33,7 +33,8 @@ export default class LevelFactory {
             {levelIndex:5,levelOuts:[6]},
             {levelIndex:6,levelOuts:[7]},
             {levelIndex:7,levelOuts:[8]},
-            {levelIndex:8,levelOuts:[8]},
+            {levelIndex:8,levelOuts:[9]},
+            {levelIndex:9,levelOuts:[9]},
         ];
 
 
@@ -45,8 +46,10 @@ export default class LevelFactory {
             (mwh, w, h) => new BasicLevel(   mwh,w,h,(e)=>{this.onLevelComplete(4,e);}   ,"Grass mound"), 
             (mwh, w, h) => new BasicLevel(   mwh,w,h,(e)=>{this.onLevelComplete(5,e);}   ,"Hisyphus"), 
             (mwh, w, h) => new BasicLevel(   mwh,w,h,(e)=>{this.onLevelComplete(6,e);}   ,"Bench and gate"), 
-            (mwh, w, h) => new BasicLevel(   mwh,w,h,(e)=>{this.onLevelComplete(7,e);}   ,"Totem"), 
-            (mwh, w, h) => new RandomLevel(  mwh,w,h,(e)=>{this.onLevelComplete(8,e);}   ), //Random (Loop)
+            (mwh, w, h) => new BasicLevel(   mwh,w,h,(e)=>{this.onLevelComplete(7,e);}   ,"Bathroom"), 
+            (mwh, w, h) => new BasicLevel(   mwh,w,h,(e)=>{this.onLevelComplete(8,e);}   ,"Totem"), 
+            (mwh,w,h)=>{window.location.href = "https://strawpoll.com/polls/XmZRjE22PZd"}
+            //(mwh, w, h) => new RandomLevel(  mwh,w,h,(e)=>{this.onLevelComplete(9,e);}   ), //Random (Loop)
         ];
     }
     onLevelComplete(levelIndexCompleted,exitNumber = 0){
