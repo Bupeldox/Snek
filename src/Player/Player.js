@@ -15,7 +15,10 @@ export class Player {
         this.forwardsControlHandler = new ButtonEventHandler(document.body, "w");
         this.resetControlHandler = new ButtonEventHandler(document.body,"r");
         this.controllerHandler = new ControllerHandler();
-        this.followCamera = new CameraFollowController();
+
+        if(!controllerNumber){
+            this.followCamera = new CameraFollowController();
+        }
 
         this.clickHandler.register(() => { this.Worm.onPhysicsBreak(); });
         this.Worm = new Worm(MOVE_DIST, MAX_LENGTH, MOVE_SPEED, WORM_RADIUS, this.MatterHandler, () => { this.resetWormPos(this.Worm); });
@@ -23,28 +26,27 @@ export class Player {
         
     }
 
-    resetWormPos(worm,p) {
-        if (!p) {
-            if(this.startPos){
-                p = this.startPos;
-            }else{
-                p = new Vec2(300, 730);
-            }
-                
-        }else{
-            this.startPos = p;
+    onNewLevel(startPos,followCam){
+        this.startPos = startPos;
+        if(!startPos){
+            this.startPos = new Vec2(300, 730);
         }
+        this.followCamera.onNewLevel(followCam);
+    }    
+    resetWormPos(worm) {
+        var p = this.startPos;          
 
         if(!worm){
-            this.resetWormPos(this.Worm,p);
+            this.resetWormPos(this.Worm);
             if(this.Worm2){
-                this.resetWormPos(this.Worm2,p);
+                this.resetWormPos(this.Worm2);
             }
         }
         else{
             worm.removeWholeWorm();
             worm.create(p);
-            this.followCamera.updateFollow(worm.objects[Math.floor(3*worm.objects.length/4)]);
+
+            this.followCamera.updateFollow(worm.objects[Math.floor(3*worm.objects.length/4)],false);
         }
     }
 
