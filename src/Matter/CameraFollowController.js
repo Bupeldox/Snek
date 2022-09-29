@@ -12,8 +12,15 @@ export class CameraFollowController {
         this.boundsScale = new Vec2(1,1);
         render.options.hasBounds = true;
     }
-    updateFollow(bod) {
+    updateFollow(bod,snap=true) {
         this.following = bod;
+
+        if(snap){
+            var delta = new Vec2(bod.position).sub(this.currentpos);
+            Bounds.translate(render.bounds,Vector.create(delta.x,delta.y));
+            this.currentpos = this.currentpos.add(delta);
+            this.offset = this.offset.add(delta);
+        }
     }
     Update(mousePos) {
         if (!this.following || !engine) {

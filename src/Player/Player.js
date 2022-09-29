@@ -44,7 +44,7 @@ export class Player {
         else{
             worm.removeWholeWorm();
             worm.create(p);
-            this.followCamera.updateFollow(worm.objects[Math.floor(worm.objects.length/2)]);
+            this.followCamera.updateFollow(worm.objects[Math.floor(3*worm.objects.length/4)]);
         }
     }
 
