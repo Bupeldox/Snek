@@ -3,6 +3,8 @@ import { MatterHandler } from "./Matter/MatterHandler.js";
 import { Player } from "./Player/Player";
 import { ButtonEventHandler } from "./Player/MouseEventHandler.js";
 
+var testingN = 0;
+
 export default class Game {
     constructor() {
         this.MatterHandler = new MatterHandler((i)=>this.loadNewLevel(i));
@@ -17,18 +19,19 @@ export default class Game {
         })
     }
     loadNewLevel(index) {
+
         this.MatterHandler.unloadLevel();
         if (this.player) {
             this.player.destroy();
         } else {
             this.player = new Player(this.MatterHandler);
         }
-        
-
+    
         this.level = this.MatterHandler.LoadLevel(index);
-        this.level.changeLevelFunc = (i) => this.loadNewLevel(i);
-
-        this.player.resetWormPos(undefined, this.level.getSnekStartPos());
+ 
+        this.player.onNewLevel(this.level.getSnekStartPos(), /*this.level.followCamera??false*/ testingN%2==0);
+        testingN++;
+        this.player.resetWormPos();
 
     }
     update(t) {
