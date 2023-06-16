@@ -147,7 +147,7 @@ export class ControllerHandler {
         window.gamepads[e.gamepad.index] = e.gamepad;
     }
     isConnected(index){
-        return navigator.getGamepads()[index] != null;
+        return navigator.getGamepads && navigator.getGamepads()[index] != null;
     }
     getSticks(index){
         var gp = navigator.getGamepads()[index];

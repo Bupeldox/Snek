@@ -4,6 +4,7 @@ import LevelFactory from "../world/LevelHandler";
 
 import Vec2 from "../Utilities/vec2";
 
+//https://brm.io/matter-js/docs/classes/Constraint.html#methods
 
 export var Engine = Matter.Engine,
     Render = Matter.Render,
@@ -57,6 +58,7 @@ Render.run(render);
 // create runner
 var runner = Runner.create({
     isFixed: true,
+    
 });
 
 
@@ -132,6 +134,7 @@ export class MatterHandler extends MatterHandlerBase {
         var c = Constraint.create({
             bodyA: head,
             bodyB: n,
+            damping:0.01,
             render: {
                 strokeStyle: "#0000"
             }
