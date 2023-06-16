@@ -14,10 +14,21 @@ export var Engine = Matter.Engine,
     Constraint = Matter.Constraint,
     Events = Matter.Events,
     levelFactory = new LevelFactory(),
-    Bounds = Matter.Bounds
+    Bounds = Matter.Bounds;
 
-
-
+    
+const collisionDif = 3;
+const newCollideFunc = function(filterA, filterB) {
+        
+    if(filterA.category == WORM_CATEGORY && filterB.category == WORM_CATEGORY){
+        return Math.abs(filterA.segmentIndex-filterB.segmentIndex)>collisionDif;
+    }
+    if (filterA.group === filterB.group && filterA.group !== 0)
+        return filterA.group > 0;
+    
+    return (filterA.mask & filterB.category) !== 0 && (filterB.mask & filterA.category) !== 0;
+};
+Matter.Detector.canCollide = newCollideFunc;
 
 // create an engine
 export var engine = Engine.create({});
@@ -50,7 +61,6 @@ var runner = Runner.create({
 
 
 const WORM_CATEGORY = 0b0010;
-const WORM2_CATEGORY = 0b0100;
 const DEFAULT_CATEGORY = 0b0001;
 
 class MatterHandlerBase{
@@ -74,7 +84,7 @@ class MatterHandlerBase{
     }
 }
 
-
+var snekSegmentIndex = 1;
 export class MatterHandler extends MatterHandlerBase {
     constructor(loadNewLevelFunc){
         super();
@@ -88,13 +98,18 @@ export class MatterHandler extends MatterHandlerBase {
 
     setSnekCollisionStuff(body,isSnek2){
         var enableCoopCollision = document.getElementById("coopCollision")?.checked??false;
+        
         if(enableCoopCollision){
-            body.collisionFilter.category = isSnek2?WORM2_CATEGORY:WORM_CATEGORY;
-            body.collisionFilter.mask = DEFAULT_CATEGORY | ((!isSnek2)?WORM2_CATEGORY:WORM_CATEGORY);
+            body.collisionFilter.snekNumber = isSnek2?0:1;
         }else{
-            body.collisionFilter.category = WORM_CATEGORY;
-            body.collisionFilter.mask = DEFAULT_CATEGORY;
+            body.collisionFilter.snekNumber = 0;
         }
+
+        body.collisionFilter.category = WORM_CATEGORY;
+        body.collisionFilter.mask = DEFAULT_CATEGORY;
+
+        snekSegmentIndex++;
+        body.collisionFilter.segmentIndex = snekSegmentIndex;
     }
 
     addSnekSegment(p, width,isSnek2) {
