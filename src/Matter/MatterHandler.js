@@ -251,13 +251,12 @@ export class MatterWorldHandler extends MatterHandler {
     registerPlayerCollisionEvent(bod, callback) {
         Events.on(engine, 'collisionStart', (event) => {
 
-            var rightPairs = event.pairs.filter((e)=>
-                {
-                    var a = e.bodyA;
-                    var b = e.bodyB;
-                    return (a.id == bod.id || b.id == bod.id) && (a.collisionFilter.category == WORM_CATEGORY || b.collisionFilter.category == WORM_CATEGORY || a.collisionFilter.category == WORM2_CATEGORY || b.collisionFilter.category == WORM2_CATEGORY);
-                }
-            );
+            var rightPairs = event.pairs.filter((e)=>{
+                var a = e.bodyA;
+                var b = e.bodyB;
+                return (a.id == bod.id || b.id == bod.id) && (a.collisionFilter.category == WORM_CATEGORY || b.collisionFilter.category == WORM_CATEGORY);
+            });
+            
             if(rightPairs.length>0){
                 callback();
             }
