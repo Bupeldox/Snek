@@ -40,7 +40,7 @@ export class LevelEditor {
         var that = this;
         $(".addElement").on("click", (e) => {
             var type = e.target.dataset.shape;
-            this.addElement(type);
+            var newElem = this.addElement(type);
         });
       
         this.mouseEventHandler.mouseMoveHandler.register((e) => {
